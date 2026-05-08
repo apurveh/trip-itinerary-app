@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80" role="img" aria-labelledby="logo-h-title logo-h-desc">
+  <title id="logo-h-title">The Clara &amp; Apurva Files</title>
+  <desc id="logo-h-desc">Compact horizontal wordmark for navigation bars.</desc>
+
+  <text x="0" y="42" text-anchor="start"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="28" fill="#4A1B0C">The Clara &amp; Apurva</text>
+
+  <g transform="translate(360, 18)">
+    <rect x="0" y="0" width="118" height="34" fill="#4A1B0C"/>
+    <text x="59" y="26" text-anchor="middle"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-weight="700" font-style="italic"
+          font-size="20" letter-spacing="5" fill="#FAEEDA">FILES</text>
+  </g>
+
+  <text x="0" y="68" text-anchor="start"
+        font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace"
+        font-size="9" letter-spacing="3" fill="#993C1D">TWO TRAVELERS · ONE DOSSIER</text>
+</svg>
