@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">The Clara &amp; Apurva Files</title>
+  <desc id="logo-desc">Wordmark logo: a dossier-style serif title with FILES set inside a redaction bar.</desc>
+
+  <text x="300" y="40" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="13" letter-spacing="6" fill="#4A1B0C">— A DOSSIER —</text>
+
+  <text x="300" y="100" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="48" fill="#4A1B0C">The Clara &amp; Apurva</text>
+
+  <g transform="translate(210, 124)">
+    <rect x="0" y="0" width="180" height="40" fill="#4A1B0C"/>
+    <text x="90" y="29" text-anchor="middle"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-weight="700" font-style="italic"
+          font-size="26" letter-spacing="7" fill="#FAEEDA">FILES</text>
+  </g>
+
+  <g transform="translate(300, 195)">
+    <line x1="-200" y1="0" x2="-50" y2="0" stroke="#993C1D" stroke-width="0.8"/>
+    <text x="0" y="4" text-anchor="middle"
+          font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace"
+          font-size="10" letter-spacing="4" fill="#993C1D">TWO TRAVELERS · ONE DOSSIER</text>
+    <line x1="50" y1="0" x2="200" y2="0" stroke="#993C1D" stroke-width="0.8"/>
+  </g>
+</svg>
