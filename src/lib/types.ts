@@ -70,7 +70,7 @@ export interface Day {
   photos: Photo[];
   intel: string[];
   heroImage: string;
-  shape?: DayShape; // optional until turin.ts is migrated (Task 5)
+  shape: DayShape;
 }
 
 export interface Cafe {

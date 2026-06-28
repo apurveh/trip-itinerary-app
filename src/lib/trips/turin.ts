@@ -76,8 +76,8 @@ export const TURIN: Trip = {
     in: "TRN 09:05 → CPH 11:10 · Wed 8 Jul",
   },
   travelers: [
-    { name: "Apurva", emoji: "🕵️", role: "Field Agent", color: "amber", initials: "AP" },
-    { name: "Clara", emoji: "🍷", role: "Cultural Attaché", color: "pink", initials: "CL" },
+    { name: "Apurva", role: "Field Agent", initials: "AP" },
+    { name: "Clara", role: "Field Agent", initials: "CL" },
   ],
   days: [
     {
@@ -87,6 +87,7 @@ export const TURIN: Trip = {
       title: "The arrival",
       label: "TOUCHDOWN",
       sticker: "amber",
+      shape: "transit",
       vibe: "soft · jet-lagged · no-plan",
       lead: "both",
       summary:
@@ -97,6 +98,7 @@ export const TURIN: Trip = {
         {
           label: "Flight CPH → TRN",
           time: "06:25",
+          startMin: 385,
           type: "flight",
           detail:
             "Your flight leaves Copenhagen (CPH) at 06:25 and lands in Turin (TRN) at 08:35.",
@@ -119,6 +121,7 @@ export const TURIN: Trip = {
         {
           label: "Apartment check-in, Corso Dante 72",
           time: "15:00",
+          startMin: 900,
           type: "transit",
           detail:
             "Check-in opens at 15:00 at Corso Dante 72 (Dante metro). From Porta Susa, take the metro toward Bengasi and get off at Dante (~8 min); the apartment is a short walk from the station.",
@@ -156,6 +159,7 @@ export const TURIN: Trip = {
       title: "Egyptian gold",
       label: "EGYPT IN ITALY",
       sticker: "wine",
+      shape: "anchored",
       vibe: "ancient · ornate · arcaded",
       lead: "Apurva",
       summary:
@@ -166,12 +170,14 @@ export const TURIN: Trip = {
         {
           label: "Museo Egizio",
           time: "10:00",
+          startMin: 600,
           type: "ticket",
           detail:
             "Your booked 10:00 entry to the Museo Egizio (the Egyptian Museum) at Via Accademia delle Scienze 6. It holds the second-largest collection of Egyptian antiquities in the world.",
           booking: "booked",
           bookingLink: "https://museitorino.it/",
           confirmationKey: "egizio-conf",
+          mapsQuery: "Museo Egizio, Torino",
         },
       ],
       ideas: [
@@ -202,6 +208,7 @@ export const TURIN: Trip = {
           area: "Centro",
           tip: "Point at what looks good; you usually pay by plate or by weight.",
           mapsQuery: "tavola calda centro Torino",
+          kind: "food",
         },
       ],
       photos: [
@@ -221,7 +228,8 @@ export const TURIN: Trip = {
       date: "3 Jul",
       title: "Motor city",
       label: "MOTOR CITY",
-      sticker: "teal",
+      sticker: "amber",
+      shape: "anchored",
       vibe: "mechanical · riverside · slow-evening",
       lead: "Apurva",
       summary:
@@ -232,11 +240,14 @@ export const TURIN: Trip = {
         {
           label: "National Automobile Museum (MAUTO)",
           time: "10:00–19:00",
+          startMin: 600,
           type: "ticket",
           detail:
             "The National Automobile Museum (Museo Nazionale dell'Automobile, also called MAUTO). It's open 10:00–19:00 and tickets are about 15 € per person. It isn't pre-booked — buy online beforehand or at the door.",
           booking: "toBook",
           bookingLink: "https://www.museoauto.com/",
+          confirmationKey: "mauto-conf",
+          mapsQuery: "Museo Nazionale dell'Automobile, Torino",
         },
         {
           label: "Metro to the museum",
@@ -266,6 +277,7 @@ export const TURIN: Trip = {
           why: "Wind down with an aperitivo — order a drink in the early evening and graze the snacks that come with it. Two well-rated spots are Caffè Bellini and L'Aperitivo DiVino.",
           area: "Centro / Lingotto",
           mapsQuery: "Caffè Bellini, Torino",
+          kind: "food",
         },
       ],
       photos: [
@@ -286,6 +298,7 @@ export const TURIN: Trip = {
       title: "Market raid",
       label: "MARKET RAID",
       sticker: "amber",
+      shape: "anchored",
       vibe: "early · bustling · cinematic",
       lead: "both",
       summary:
@@ -296,20 +309,24 @@ export const TURIN: Trip = {
         {
           label: "Balôn flea market + Porta Palazzo market",
           time: "from 07:00",
+          startMin: 420,
           type: "market",
           detail:
             "Two markets sit side by side near Porta Palazzo: the huge daily Porta Palazzo food-and-goods market, and the Balôn flea market (Saturdays only). Both get going around 07:00 and are best early.",
           booking: "na",
+          mapsQuery: "Porta Palazzo, Torino",
         },
         {
           label: "Mole — Cinema Museum + panoramic lift",
           time: "15:00",
+          startMin: 900,
           type: "ticket",
           detail:
             "Your booked 15:00 entry to the National Cinema Museum inside the Mole Antonelliana, including the glass panoramic lift to the top for the city view.",
           booking: "booked",
           bookingLink: "https://www.museocinema.it/",
           confirmationKey: "mole-conf",
+          mapsQuery: "Mole Antonelliana, Torino",
         },
         {
           label: "Metro into the centre",
@@ -325,6 +342,7 @@ export const TURIN: Trip = {
           why: "The Quadrilatero Romano is the old grid of narrow lanes packed with bakeries, cafés and casual lunch spots — the place to refuel between the morning markets and the afternoon Mole.",
           area: "Quadrilatero",
           mapsQuery: "Quadrilatero Romano, Torino",
+          kind: "food",
         },
         {
           name: "Via Garibaldi stroll",
@@ -352,6 +370,7 @@ export const TURIN: Trip = {
       title: "The abbey job",
       label: "THE ABBEY JOB",
       sticker: "wine",
+      shape: "anchored",
       vibe: "mountainside · monastic · lakeside",
       lead: "Apurva",
       summary:
@@ -369,27 +388,34 @@ export const TURIN: Trip = {
         {
           label: "Train Porta Nuova → Avigliana",
           time: "07:45 / 08:45 / 09:15 / 09:45 / 10:45",
+          startMin: 465,
           type: "ticket",
           detail:
             "Regional train from Porta Nuova toward Susa/Bardonecchia/Modane; get off at Avigliana (~30 min). Useful departures: 07:45, 08:45, 09:15, 09:45, 10:45. Buy the train + shuttle BUNDLE in the Trenitalia app.",
           booking: "toBook",
           bookingLink: "https://www.trenitalia.com/",
+          confirmationKey: "sacra-train-conf",
+          mapsQuery: "Stazione di Avigliana",
         },
         {
           label: "Avigliana shuttle up to the Sacra",
           time: "ONLY 09:00 / 10:00 / 14:00 / 16:00",
+          startMin: 540,
           type: "shuttle",
           detail:
             "A shuttle bus runs from Avigliana up to the Sacra di San Michele at fixed times only: 09:00, 10:00, 14:00 and 16:00. There's no easy alternative up, so plan your train to connect with one of these.",
           booking: "na",
+          mapsQuery: "Sacra di San Michele",
         },
         {
           label: "Shuttle back down from the Sacra",
           time: "ONLY 09:30 / 10:30 / 14:30 / 16:30 / 18:30",
+          startMin: 570,
           type: "shuttle",
           detail:
             "The return shuttle from the Sacra down to Avigliana also runs at fixed times only: 09:30, 10:30, 14:30, 16:30 and 18:30. Note your slot before you head up.",
           booking: "na",
+          mapsQuery: "Sacra di San Michele",
         },
       ],
       ideas: [
@@ -398,6 +424,7 @@ export const TURIN: Trip = {
           why: "A dramatic 10th-century abbey perched on Mount Pirchiriano — the building that inspired Umberto Eco's novel *The Name of the Rose*. The views over the valley are the reward for the climb.",
           area: "Mount Pirchiriano / Avigliana",
           mapsQuery: "Sacra di San Michele",
+          kind: "viewpoint",
           photo: { src: sacraDiSanMichele, alt: "Sacra di San Michele — the 10th-century abbey perched on Mount Pirchiriano above Val di Susa" },
         },
         {
@@ -426,7 +453,8 @@ export const TURIN: Trip = {
       date: "6 Jul",
       title: "Roman holiday",
       label: "ROMAN HOLIDAY",
-      sticker: "teal",
+      sticker: "wine",
+      shape: "route",
       vibe: "alpine · ancient · unhurried",
       lead: "both",
       summary:
@@ -448,12 +476,15 @@ export const TURIN: Trip = {
             "Regional train from Porta Nuova to Susa (about 1 hour 6 minutes). Buy it in the Trenitalia app or at the station.",
           booking: "toBook",
           bookingLink: "https://www.trenitalia.com/",
+          confirmationKey: "susa-train-conf",
+          mapsQuery: "Susa, TO",
         },
         // RESEARCH at build time: Susa → Torino Porta Nuova return times via trenitalia.com / SFM.
         // Trains run roughly hourly into the evening; verify exact times before the trip.
         {
           label: "Return train Susa → Porta Nuova",
           time: "≈ hourly to ~20:00",
+          startMin: 1200,
           type: "transit",
           detail: "Verify exact times in the Trenitalia app the morning of. ~1h06.",
           booking: "na",
@@ -490,6 +521,7 @@ export const TURIN: Trip = {
           why: "Susa is small and walkable — pick a trattoria in the centre for a relaxed mountain-town lunch between sights.",
           area: "Susa",
           mapsQuery: "ristorante centro Susa",
+          kind: "food",
         },
       ],
       photos: [],
@@ -505,6 +537,7 @@ export const TURIN: Trip = {
       title: "Local heroes",
       label: "LOCAL HEROES",
       sticker: "amber",
+      shape: "route",
       vibe: "panoramic · uphill · proud",
       lead: "Clara",
       summary:
@@ -526,6 +559,8 @@ export const TURIN: Trip = {
             "The historic Sassi–Superga rack railway (the 'Cremagliera') climbs from Sassi station up to the Basilica of Superga (~18 min up). Buy tickets at Sassi station or through GTT, the city transport company.",
           booking: "toBook",
           bookingLink: "https://www.gtt.to.it/",
+          confirmationKey: "superga-tram-conf",
+          mapsQuery: "Stazione Sassi, Torino",
         },
       ],
       ideas: [
@@ -534,6 +569,7 @@ export const TURIN: Trip = {
           why: "A small hill with a church and one of the best free panoramas of Turin and the Alps, just across the river from the centre.",
           area: "Monte dei Cappuccini",
           mapsQuery: "Monte dei Cappuccini, Torino",
+          kind: "viewpoint",
           photo: { src: monteCappuccini, alt: "Santa Maria al Monte dei Cappuccini — the hilltop church with panoramic views over Turin", credit: "GJo / Wikimedia Commons (CC BY-SA 3.0)" },
         },
         {
@@ -556,6 +592,7 @@ export const TURIN: Trip = {
           why: "The grand hilltop basilica, reached by the rack tram (~18 min up), holds the royal tombs of the House of Savoy and a sweeping view over the city and mountains.",
           area: "Superga",
           mapsQuery: "Basilica di Superga",
+          kind: "viewpoint",
           photo: { src: supergaBasilisca, alt: "The Basilica di Superga — Turin's grand hilltop church holding the Royal Tombs of the House of Savoy" },
         },
         {
@@ -563,6 +600,7 @@ export const TURIN: Trip = {
           why: "Grab lunch around the Sassi station before or after riding the rack tram up to Superga.",
           area: "Sassi",
           mapsQuery: "ristorante Sassi Torino",
+          kind: "food",
         },
       ],
       photos: [
@@ -583,6 +621,7 @@ export const TURIN: Trip = {
       title: "Departure",
       label: "ARRIVEDERCI, AMORE",
       sticker: "wine",
+      shape: "transit",
       vibe: "early · wistful · over-packed",
       lead: "both",
       summary:
@@ -593,6 +632,7 @@ export const TURIN: Trip = {
         {
           label: "Wake-up",
           time: "~04:45",
+          startMin: 285,
           type: "transit",
           detail: "Set an alarm for about 04:45 — it's an early start to make the airport train.",
           booking: "na",
@@ -600,6 +640,7 @@ export const TURIN: Trip = {
         {
           label: "Metro Dante → Porta Susa",
           time: "05:54",
+          startMin: 354,
           type: "transit",
           detail:
             "Take the 05:54 metro from Dante toward Fermi to Porta Susa, which brings you straight into Porta Susa railway station.",
@@ -608,6 +649,7 @@ export const TURIN: Trip = {
         {
           label: "Airport train Porta Susa → Torino Airport",
           time: "06:13",
+          startMin: 373,
           type: "transit",
           detail:
             "Board the 06:13 SFM regional train from Porta Susa to Torino Aeroporto (about 30 minutes). This is the train to catch.",
@@ -616,6 +658,7 @@ export const TURIN: Trip = {
         {
           label: "Flight TRN → CPH",
           time: "09:05",
+          startMin: 545,
           type: "flight",
           detail:
             "Your flight home leaves Turin (TRN) at 09:05 and lands in Copenhagen (CPH) at 11:10.",
@@ -655,6 +698,8 @@ export const TURIN: Trip = {
     "Backpack for Lago Grande",
     "ID (carry for the Mole, Day 4)",
     "Refillable water bottle",
+    "Sun hat",
+    "Sunscreen",
   ],
   tips: {
     transit: [
@@ -667,9 +712,10 @@ export const TURIN: Trip = {
       "Aperitivo is a Turin institution: buy one drink in the early evening and the snacks that come with it are generous enough to be dinner.",
     ],
     weather: [
-      "Early July is hot — around 28–32 °C and often humid.",
-      "Save the indoor museums for the hottest part of the afternoon.",
-      "Carry water and refill at the toret fountains; the heat sneaks up on you.",
+      "Early July in Turin is hot — roughly 30–35 °C, humid, and hotter in a heatwave.",
+      "On city days, save the indoor museums for the 13:00–16:00 peak and walk the arcaded streets (Via Roma) for shade.",
+      "On the day-trips (Sacra, Susa, Superga) you're outdoors in the heat — start early, wear a hat, and carry water.",
+      "Refill free at the green bull-head 'toret' fountains all over the city.",
     ],
   },
   budget: [
@@ -683,10 +729,5 @@ export const TURIN: Trip = {
     { cat: "GTT city travel", amt: 270 },
   ],
   budgetTotalDkk: "≈ 1,900 DKK couple (fixed costs)",
-  memories: [
-    { caption: "FILE EMPTY — to be developed", img: null },
-    { caption: "FILE EMPTY — to be developed", img: null },
-    { caption: "FILE EMPTY — to be developed", img: null },
-    { caption: "FILE EMPTY — to be developed", img: null },
-  ],
+  memories: [],
 };
