@@ -106,8 +106,8 @@ cut on a grid* — historically analog and on-theme.
 ### 3.6 People, places, things — one representation each **[v2]**
 - **Places/memories = photos.** **Wayfinding/UI = stencil icons.** **People = ONE avatar system.**
 - **Emoji avatars (🕵️/🍷) removed** — full-color, vendor-specific, off-palette, and re-encode the
-  retired sidekick coding. Avatar treatment: **OPEN DECISION (§11) — stencil portraits vs a
-  monochrome "passport/ID-photo" treatment.** Whichever is chosen is the *only* way people appear.
+  retired sidekick coding. **Avatar treatment = stencil-grid portraits** (DECIDED) — monochrome
+  ink on the grid, reinforcing the icon system. This is the *only* way people appear.
 
 ### 3.7 Layout primitives
 - One container: comfortable mobile side-padding (≥16px), max-width centered on desktop, **plus a
@@ -164,17 +164,15 @@ Rules:
   is **shade · water · early-start**, not "go indoors." Heat copy is day-aware, not one global rule.
 - Hydration / green *toret*-fountain cues on outdoor stops; confirm packing lists hat + sunscreen.
 
-### Offline / performance **[v2 — was out of scope; now flagged as core]**
-For a phone used mid-trip on bad data, "re-download everything from Google every time" is the
-single biggest hole. **Recommended (OPEN DECISION §11 — adds scope):**
-- **PWA + service worker** (`vite-plugin-pwa`/Workbox): precache the app shell (~74KB gz JS +
-  ~4KB gz CSS + `turin.ts`) and self-hosted fonts; runtime-cache images (CacheFirst LRU). Add a
-  web manifest so it installs to the home screen and opens instantly with no signal.
+### Performance **[v2]**
+**Offline/PWA: DROPPED** — user has reliable mobile data everywhere; no service worker / manifest.
+The image and font work below stays in scope: even on good data it means faster loads, less data
+burned, and no layout jump.
 - **Images:** ~8 MB of 1080–1707px JPGs rendered at ~360px (3–5× oversampled). Resize to ~2×
   display width (≤~800px), emit AVIF/WebP via `srcset`/`<picture>` (e.g. `vite-imagetools`).
   Expect ~8 MB → ~1–1.5 MB. **In scope regardless of PWA.**
 - **Every `<img>` gets intrinsic `width`/`height` or `aspect-ratio`** (zero do today) → no layout
-  jump as images stream in on slow data. Day hero `height:220` fixed → `aspect-ratio`. **In scope.**
+  jump as images stream in. Day hero `height:220` fixed → `aspect-ratio`.
 - **Self-host the 3 fonts** (woff2, Latin subset, `font-display:swap`); drop Google Fonts origins.
 - Hero `fetchpriority="high"` + `decoding="async"`; below-fold stays `loading="lazy"`.
 - Drop `framer-motion` (only `useReducedMotion` is used, already tree-shaken) → 5-line `matchMedia`
@@ -253,13 +251,12 @@ reduced-motion disables marquee + reveal + hover-lift · skip-to-content link ·
   band-boundary merge helper.
 - Tablet/desktop scale-up check.
 
-## 11. Open decisions for the user
+## 11. Decisions (resolved)
 
-1. **Offline/PWA (scope):** add the service-worker + manifest so the app works offline mid-trip?
-   Strongly recommended for this use case; adds build setup. (Image resizing + intrinsic
-   dimensions happen either way.)
-2. **Avatar treatment:** stencil-grid portraits (reinforces the icon system) **or** a monochrome
-   "passport/ID-photo" treatment (warmer, more personal)? This is *you two*, so it's your call.
+1. **Offline/PWA — NO.** User has reliable mobile data everywhere. No service worker / manifest.
+   Image resizing + intrinsic dimensions still ship (faster loads, less data, no layout jump).
+2. **Avatar treatment — stencil-grid portraits.** Monochrome ink on the grid, reinforcing the
+   icon system. The only way people are depicted.
 
 ## 12. Out of scope (this pass)
 
