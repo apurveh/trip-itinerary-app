@@ -197,9 +197,9 @@ export default function TripHero({ trip, onBack }: TripHeroProps) {
             {(
               [
                 ["DURATION", "8 DAYS"],
-                ["BASE", "SUPERGA, TORINO"],
+                ["BASE", "CORSO DANTE 72"],
                 ["AGENTS", "AP + CL"],
-                ["BUDGET", "~6,600 DKK"],
+                ["BUDGET", "~1,900 DKK"],
                 ["TEMP", "28–32°C HUMID"],
               ] as const
             ).map(([k, v], i) => (

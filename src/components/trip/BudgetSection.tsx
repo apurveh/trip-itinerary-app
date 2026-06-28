@@ -10,7 +10,6 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
   const max = Math.max(...trip.budget.map((b) => b.amt));
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
-  const [count, setCount] = useState(0);
   const prefersReduced = useReducedMotion();
 
   useEffect(() => {
@@ -27,26 +26,6 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (!shown) return;
-    const target = trip.budgetTotal.hi;
-    if (prefersReduced) {
-      setCount(target);
-      return;
-    }
-    let raf = 0;
-    const start = performance.now();
-    const dur = 1400;
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / dur);
-      setCount(Math.round(target * (0.2 + 0.8 * p)));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else setCount(target);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [shown, trip.budgetTotal.hi, prefersReduced]);
 
   return (
     <section
@@ -90,26 +69,25 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
                 color: "var(--ink-soft)",
               }}
             >
-              RUNNING ESTIMATE · COUPLE · 8 DAYS
+              FIXED COSTS · COUPLE · 8 DAYS
             </div>
             <div
               className="t-display"
               style={{
-                fontSize: 96,
+                fontSize: 44,
                 color: "var(--wine)",
-                lineHeight: 1,
+                lineHeight: 1.05,
                 textShadow: "3px 3px 0 var(--amber)",
+                maxWidth: 360,
               }}
             >
-              {count.toLocaleString()}
-              <span style={{ fontSize: 28, color: "var(--ink)", marginLeft: 8 }}>DKK</span>
+              {trip.budgetTotalDkk}
             </div>
             <div
               className="t-typewriter"
               style={{ fontSize: 12, color: "var(--ink-soft)" }}
             >
-              range: {trip.budgetTotal.lo.toLocaleString()} –{" "}
-              {trip.budgetTotal.hi.toLocaleString()} DKK
+              transit, museum tickets &amp; day-trip travel only
             </div>
           </div>
         </div>
@@ -200,10 +178,10 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0" }}>
                 {[
-                  "Cook 5–6 dinners in: ~800 DKK off the bill.",
-                  "Skip the rental car: ~500 DKK off, but lose Langhe flexibility.",
-                  "Torino+Piemonte Card if you hit 4+ sites — 200–400 DKK saved.",
-                  "Pack lunch for day trips. The view is the restaurant.",
+                  "This figure is fixed costs only — transit, tickets and day-trip trains. Food and drinks aren't counted.",
+                  "Buy the Avigliana train + shuttle as a BUNDLE in the Trenitalia app — cheaper than separate tickets.",
+                  "A multi-day GTT pass can beat single tickets once you ride the metro and buses every day.",
+                  "Refill at the free toret fountains instead of buying water on the go.",
                 ].map((t) => (
                   <li
                     key={t}

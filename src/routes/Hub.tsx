@@ -139,10 +139,10 @@ export default function Hub() {
         items={[
           "FILES 001 · OPERAZIONE TORINO",
           "DEPARTING 1 JULY 2026",
-          "BASE: SAFEHOUSE NEAR SUPERGA",
+          "BASE: CORSO DANTE 72",
           "STATUS: UPCOMING",
-          "BUDGET: ~6,600 DKK COUPLE",
-          "BAROLO ADVISORY ACTIVE",
+          "BUDGET: ~1,900 DKK COUPLE",
+          "SPONTANEITY ENGAGED",
         ]}
       />
 

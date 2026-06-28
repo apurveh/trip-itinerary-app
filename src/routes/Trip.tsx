@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { loadTrip } from "@/lib/loadTrip";
 import TripHero from "@/components/trip/TripHero";
-import DaysScroller from "@/components/trip/DaysScroller";
+import DayIndex from "@/components/trip/DayIndex";
 import BudgetSection from "@/components/trip/BudgetSection";
 import PracticalInfo from "@/components/trip/PracticalInfo";
 import MemoriesSection from "@/components/trip/MemoriesSection";
@@ -36,7 +36,7 @@ export default function Trip() {
   return (
     <main>
       <TripHero trip={trip} onBack={onBack} />
-      <DaysScroller trip={trip} />
+      <DayIndex trip={trip} />
       <BudgetSection trip={trip} />
       <PracticalInfo trip={trip} />
       <MemoriesSection />
