@@ -79,8 +79,7 @@ export default function Avatar({ traveler, size = 26 }: AvatarProps) {
       width={size}
       height={size}
       viewBox="0 0 16 16"
-      aria-label={traveler.initials}
-      role="img"
+      aria-hidden
       style={{ shapeRendering: "crispEdges", display: "block" }}
     >
       {variant === 0 ? <PortraitA /> : <PortraitB />}
