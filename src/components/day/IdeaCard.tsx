@@ -6,13 +6,21 @@ export default function IdeaCard({ idea }: { idea: Idea }) {
     <article className="hover-lift" style={{ border: "2px solid var(--ink)", background: "var(--paper)",
       boxShadow: "5px 5px 0 var(--ink)", overflow: "hidden", display: "grid", gap: 0 }}>
       {idea.photo && (
-        <img
-          src={idea.photo.src}
-          alt={idea.photo.alt}
-          loading="lazy"
-          style={{ display: "block", width: "100%", height: 140, objectFit: "cover",
-            borderBottom: "2px solid var(--ink)" }}
-        />
+        <figure style={{ margin: 0 }}>
+          <img
+            src={idea.photo.src}
+            alt={idea.photo.alt}
+            loading="lazy"
+            style={{ display: "block", width: "100%", height: 140, objectFit: "cover",
+              borderBottom: idea.photo.credit ? undefined : "2px solid var(--ink)" }}
+          />
+          {idea.photo.credit && (
+            <figcaption className="t-mono" style={{ fontSize: 9, padding: "2px 6px",
+              color: "var(--ink-soft)", borderBottom: "2px solid var(--ink)" }}>
+              {idea.photo.credit}
+            </figcaption>
+          )}
+        </figure>
       )}
       <div style={{ padding: 16, display: "grid", gap: 6 }}>
       <div className="t-display" style={{ fontSize: 22 }}>{idea.name}</div>

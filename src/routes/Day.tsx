@@ -23,6 +23,15 @@ export default function Day() {
   return (
     <main className="case-container" style={{ padding: "32px 0 80px" }}>
       <Link to={`/trips/${slug}`} className="t-mono" style={{ fontSize: 12, color: "var(--wine)" }}>← DOSSIER</Link>
+      {day.heroImage && (
+        <img
+          src={day.heroImage}
+          alt={`${day.title} — Turin`}
+          loading="lazy"
+          style={{ display: "block", width: "100%", height: 220, objectFit: "cover",
+            border: "2px solid var(--ink)", boxShadow: "6px 6px 0 var(--ink)", marginTop: 16 }}
+        />
+      )}
       <div style={{ marginTop: 16, display: "flex", gap: 18, alignItems: "baseline", flexWrap: "wrap" }}>
         <div className="t-display" style={{ fontSize: 96, lineHeight: 1, color: "var(--wine)" }}>{String(day.n).padStart(2, "0")}</div>
         <div>
