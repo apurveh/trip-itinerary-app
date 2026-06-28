@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { loadTrip } from "@/lib/loadTrip";
 import Anchors from "@/components/day/Anchors";
+import IdeaCard from "@/components/day/IdeaCard";
 import Sticker from "@/components/primitives/Sticker";
 
 export default function Day() {
@@ -33,6 +34,13 @@ export default function Day() {
       <div className="t-typewriter" style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 8 }}>GETTING THERE · {day.transitFromBase}</div>
       <h2 className="t-display" style={{ fontSize: 32, marginTop: 32 }}>⏱ ANCHORS</h2>
       <Anchors anchors={day.anchors} />
+      {day.ideas.length > 0 && (<>
+        <h2 className="t-display" style={{ fontSize: 32, marginTop: 36 }}>🎲 THE MENU</h2>
+        <div className="t-typewriter" style={{ fontSize: 12, color: "var(--ink-soft)", marginBottom: 12 }}>Pick any, skip any, in any order.</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+          {day.ideas.map((idea, i) => <IdeaCard key={i} idea={idea} />)}
+        </div>
+      </>)}
     </main>
   );
 }
