@@ -25,7 +25,7 @@ export default function CaseHeader() {
         position: "sticky",
         top: 0,
         zIndex: 50,
-        height: "var(--header-h)",
+        minHeight: "var(--header-h)",
         background: "var(--ink)",
         color: "var(--manila-light)",
         borderBottom: "2px solid var(--wine)",
