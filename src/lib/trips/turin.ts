@@ -1,7 +1,13 @@
 import type { Trip } from "../types";
 
 import hero from "@/assets/trips/turin/hero.jpg";
-import day6 from "@/assets/trips/turin/day-6.jpg";
+
+// Gap photos sourced from Wikimedia Commons (2026-06-28)
+import mautoImg from "@/assets/trips/turin/mauto.jpg";
+import arcoAugustoSusa from "@/assets/trips/turin/arco-augusto-susa.jpg";
+import monteCappuccini from "@/assets/trips/turin/monte-cappuccini.jpg";
+import villaDellRegina from "@/assets/trips/turin/villa-della-regina.jpg";
+import balonFleaMarket from "@/assets/trips/turin/balon-flea-market.jpg";
 
 // Day 1 — Arrival / city centre
 import viaRomaTorino from "@/assets/trips/turin/via-roma-torino.jpg";
@@ -247,6 +253,7 @@ export const TURIN: Trip = {
           area: "Lingotto",
           cost: "15 € pp",
           mapsQuery: "Museo Nazionale dell'Automobile, Torino",
+          photo: { src: mautoImg, alt: "Inside the Museo Nazionale dell'Automobile (MAUTO) — one of the world's great car museums", credit: "FrDr / Wikimedia Commons (CC BY-SA 4.0)" },
         },
         {
           name: "Riverside walk along the Po",
@@ -262,6 +269,7 @@ export const TURIN: Trip = {
         },
       ],
       photos: [
+        { src: boRiver, alt: "The Po river at Turin — the riverside walk near Lingotto and the MAUTO" },
         { src: parcoDelValentino, alt: "Parco del Valentino — Turin's riverside park along the Po" },
         { src: parcoDelValentino2, alt: "Parco del Valentino in summer near the Po riverbank" },
         { src: aperitivo, alt: "Turin-style aperitivo — the city's beloved early-evening ritual" },
@@ -269,7 +277,7 @@ export const TURIN: Trip = {
       intel: [
         "Lingotto's old Fiat factory has an iconic car test-track on its roof — look up a photo before you go so you recognise it.",
       ],
-      heroImage: boRiver,
+      heroImage: mautoImg,
     },
     {
       n: 4,
@@ -328,6 +336,7 @@ export const TURIN: Trip = {
       photos: [
         { src: portaPalazzo2, alt: "Porta Palazzo market — Europe's largest open-air market" },
         { src: portaPalazzoB, alt: "Porta Palazzo market stalls on a busy Saturday morning" },
+        { src: balonFleaMarket, alt: "Balôn flea market — Turin's Saturday antiques and vintage market", credit: "Orologiaiopazzo / Wikimedia Commons (Public domain)" },
         { src: cinemaMuseum2, alt: "Inside the National Cinema Museum in the Mole Antonelliana" },
         { src: quadrilatero, alt: "The Quadrilatero Romano — Turin's historic grid of narrow lanes and cafés" },
       ],
@@ -456,6 +465,7 @@ export const TURIN: Trip = {
           why: "A well-preserved Roman triumphal arch from around 9–8 BC, still standing in the old town of Susa.",
           area: "Susa",
           mapsQuery: "Arco di Augusto, Susa",
+          photo: { src: arcoAugustoSusa, alt: "Arco di Augusto — the Roman triumphal arch standing in Susa since 9–8 BC", credit: "Duvilar (Lorenzo Rossetti) / Wikimedia Commons (CC BY-SA 3.0)" },
         },
         {
           name: "The Roman amphitheatre",
@@ -486,7 +496,7 @@ export const TURIN: Trip = {
       intel: [
         "Keep the day loose — the only thing to nail down is your train home. Check the Susa → Porta Nuova return times before you wander off.",
       ],
-      heroImage: day6,
+      heroImage: arcoAugustoSusa,
     },
     {
       n: 7,
@@ -524,6 +534,7 @@ export const TURIN: Trip = {
           why: "A small hill with a church and one of the best free panoramas of Turin and the Alps, just across the river from the centre.",
           area: "Monte dei Cappuccini",
           mapsQuery: "Monte dei Cappuccini, Torino",
+          photo: { src: monteCappuccini, alt: "Santa Maria al Monte dei Cappuccini — the hilltop church with panoramic views over Turin", credit: "GJo / Wikimedia Commons (CC BY-SA 3.0)" },
         },
         {
           name: "Villa della Regina",
@@ -531,6 +542,7 @@ export const TURIN: Trip = {
           area: "Collina",
           cost: "~5 € pp",
           mapsQuery: "Villa della Regina, Torino",
+          photo: { src: villaDellRegina, alt: "Villa della Regina — the terraced gardens of the 17th-century royal villa on Turin's hillside", credit: "Zairon / Wikimedia Commons (CC BY-SA 4.0)" },
         },
         {
           name: "Walk to the Gran Madre, then bus to Sassi",
