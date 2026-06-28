@@ -1,14 +1,48 @@
 import type { Trip } from "../types";
 
 import hero from "@/assets/trips/turin/hero.jpg";
-import day1 from "@/assets/trips/turin/day-1.jpg";
-import day2 from "@/assets/trips/turin/day-2.jpg";
-import day3 from "@/assets/trips/turin/day-3.jpg";
-import day4 from "@/assets/trips/turin/day-4.jpg";
-import day5 from "@/assets/trips/turin/day-5.jpg";
 import day6 from "@/assets/trips/turin/day-6.jpg";
-import day7 from "@/assets/trips/turin/day-7.jpg";
-import day8 from "@/assets/trips/turin/day-8.jpg";
+
+// Day 1 — Arrival / city centre
+import viaRomaTorino from "@/assets/trips/turin/via-roma-torino.jpg";
+import stradaDeTorino from "@/assets/trips/turin/strada-de-torino.jpg";
+import piazzaSanCarlo3 from "@/assets/trips/turin/piazza-san-carlo-3.jpg";
+
+// Day 2 — Museo Egizio + royal centre
+import egizio1 from "@/assets/trips/turin/egizio-1.jpg";
+import egizio2 from "@/assets/trips/turin/egizio-2.jpg";
+import piazzaCastello1 from "@/assets/trips/turin/piazza-castello-1.jpg";
+import palazzoReale from "@/assets/trips/turin/palazzo-reale.jpg";
+
+// Day 3 — Riverside + aperitivo (MAUTO has no photo — gap noted)
+import boRiver from "@/assets/trips/turin/bo-river.jpg";
+import parcoDelValentino from "@/assets/trips/turin/parco-del-valentino.jpg";
+import parcoDelValentino2 from "@/assets/trips/turin/parco-del-valentino-2.jpg";
+import aperitivo from "@/assets/trips/turin/aperitivo.jpg";
+
+// Day 4 — Markets + Mole Cinema Museum
+import cinemaMuseum1 from "@/assets/trips/turin/cinema-museum-1.jpg";
+import portaPalazzo2 from "@/assets/trips/turin/porta-palazzo-2.jpg";
+import portaPalazzoB from "@/assets/trips/turin/porta-palazzo-b.webp";
+import cinemaMuseum2 from "@/assets/trips/turin/cinema-museum-2.jpg";
+import quadrilatero from "@/assets/trips/turin/quadrilatero.jpg";
+
+// Day 5 — Sacra di San Michele + Lago Grande
+import sacraDiSanMichele from "@/assets/trips/turin/sacra-di-san-michele.jpg";
+import sacra3 from "@/assets/trips/turin/sacra-3.jpg";
+import mortrera from "@/assets/trips/turin/mortrera.jpg";
+import lacsDavcgliana2 from "@/assets/trips/turin/lacs-davcgliana-2.jpg";
+import picnic from "@/assets/trips/turin/picnic.jpg";
+
+// Day 7 — Superga + Sassi rack tram (Monte dei Cappuccini & Villa della Regina have no photo — gaps noted)
+import supergaImg from "@/assets/trips/turin/superga.jpg";
+import superga2 from "@/assets/trips/turin/superga-2.jpg";
+import supergaBasilisca from "@/assets/trips/turin/superga-basilisca.jpg";
+import tombOfSavoy from "@/assets/trips/turin/tomb-of-the-house-of-savoy.jpg";
+import sassiStation from "@/assets/trips/turin/sassi-station.jpg";
+
+// Day 8 — Departure
+import panino from "@/assets/trips/turin/panino.jpg";
 
 export const TURIN: Trip = {
   id: "001",
@@ -100,11 +134,14 @@ export const TURIN: Trip = {
           mapsQuery: "supermarket Corso Dante, Torino",
         },
       ],
-      photos: [],
+      photos: [
+        { src: stradaDeTorino, alt: "A grand arcaded street in Turin's historic centre" },
+        { src: piazzaSanCarlo3, alt: "Piazza San Carlo — Turin's elegant baroque 'drawing-room' square" },
+      ],
       intel: [
         "Don't overbook day one. Drop the bags at Porta Susa first, then wander until the 15:00 apartment check-in — there's no need to plan anything before then.",
       ],
-      heroImage: day1,
+      heroImage: viaRomaTorino,
     },
     {
       n: 2,
@@ -137,6 +174,7 @@ export const TURIN: Trip = {
           why: "Turin's elegant 'drawing-room' square, framed by twin baroque churches and grand arcaded cafés.",
           area: "Centro",
           mapsQuery: "Piazza San Carlo, Torino",
+          photo: { src: piazzaSanCarlo3, alt: "Piazza San Carlo — Turin's baroque square lined with arcaded cafés" },
         },
         {
           name: "Piazza Castello & Palazzo Reale",
@@ -144,6 +182,7 @@ export const TURIN: Trip = {
           area: "Centro",
           cost: "Palazzo Reale ~17 € pp",
           mapsQuery: "Palazzo Reale, Torino",
+          photo: { src: palazzoReale, alt: "Palazzo Reale — the Savoy royal palace on Piazza Castello" },
         },
         {
           name: "Via Roma arcades",
@@ -159,11 +198,16 @@ export const TURIN: Trip = {
           mapsQuery: "tavola calda centro Torino",
         },
       ],
-      photos: [],
+      photos: [
+        { src: egizio2, alt: "Inside the Museo Egizio — one of the world's greatest Egyptian collections" },
+        { src: piazzaCastello1, alt: "Piazza Castello — the grand royal square at the heart of Turin" },
+        { src: palazzoReale, alt: "Palazzo Reale — the Savoy royal palace fronting Piazza Castello" },
+        { src: piazzaSanCarlo3, alt: "Piazza San Carlo — Turin's baroque 'drawing-room' square" },
+      ],
       intel: [
         "Aperitivo was invented in Turin — order one drink in the early evening and the free snacks that come with it are basically dinner.",
       ],
-      heroImage: day2,
+      heroImage: egizio1,
     },
     {
       n: 3,
@@ -217,11 +261,15 @@ export const TURIN: Trip = {
           mapsQuery: "Caffè Bellini, Torino",
         },
       ],
-      photos: [],
+      photos: [
+        { src: parcoDelValentino, alt: "Parco del Valentino — Turin's riverside park along the Po" },
+        { src: parcoDelValentino2, alt: "Parco del Valentino in summer near the Po riverbank" },
+        { src: aperitivo, alt: "Turin-style aperitivo — the city's beloved early-evening ritual" },
+      ],
       intel: [
         "Lingotto's old Fiat factory has an iconic car test-track on its roof — look up a photo before you go so you recognise it.",
       ],
-      heroImage: day3,
+      heroImage: boRiver,
     },
     {
       n: 4,
@@ -277,11 +325,16 @@ export const TURIN: Trip = {
           mapsQuery: "Via Garibaldi, Torino",
         },
       ],
-      photos: [],
+      photos: [
+        { src: portaPalazzo2, alt: "Porta Palazzo market — Europe's largest open-air market" },
+        { src: portaPalazzoB, alt: "Porta Palazzo market stalls on a busy Saturday morning" },
+        { src: cinemaMuseum2, alt: "Inside the National Cinema Museum in the Mole Antonelliana" },
+        { src: quadrilatero, alt: "The Quadrilatero Romano — Turin's historic grid of narrow lanes and cafés" },
+      ],
       intel: [
         "Carry your ID — you need it for the Mole. The markets are best before 09:00, and remember the Balôn flea market only runs on Saturday.",
       ],
-      heroImage: day4,
+      heroImage: cinemaMuseum1,
     },
     {
       n: 5,
@@ -336,6 +389,7 @@ export const TURIN: Trip = {
           why: "A dramatic 10th-century abbey perched on Mount Pirchiriano — the building that inspired Umberto Eco's novel *The Name of the Rose*. The views over the valley are the reward for the climb.",
           area: "Mount Pirchiriano / Avigliana",
           mapsQuery: "Sacra di San Michele",
+          photo: { src: sacraDiSanMichele, alt: "Sacra di San Michele — the 10th-century abbey perched on Mount Pirchiriano above Val di Susa" },
         },
         {
           name: "Lago Grande di Avigliana — swim & picnic",
@@ -343,13 +397,19 @@ export const TURIN: Trip = {
           area: "Avigliana",
           tip: "Bring flip-flops, a towel and a backpack for your lake things.",
           mapsQuery: "Baia Grande, Lago Grande di Avigliana",
+          photo: { src: lacsDavcgliana2, alt: "Lago Grande di Avigliana — clear summer waters below the Sacra di San Michele" },
         },
       ],
-      photos: [],
+      photos: [
+        { src: sacra3, alt: "Sacra di San Michele — detail of the cliff-top abbey above Val di Susa" },
+        { src: mortrera, alt: "The Mortrera woodland trail up to the Sacra di San Michele" },
+        { src: lacsDavcgliana2, alt: "Lago Grande di Avigliana — the clear lake near Avigliana" },
+        { src: picnic, alt: "Picnic at the lake — a relaxed end to a day in the hills" },
+      ],
       intel: [
         "Buy the train + shuttle BUNDLE in the Trenitalia app — it's cheaper and simpler. Bring flip-flops, a towel and a backpack so you can stop at the lake on the way.",
       ],
-      heroImage: day5,
+      heroImage: sacraDiSanMichele,
     },
     {
       n: 6,
@@ -477,12 +537,14 @@ export const TURIN: Trip = {
           why: "From the hill it's about a 14-minute walk down to the Gran Madre di Dio church by the river; from there bus 61 reaches the Sassi rack-tram station in about 13 minutes.",
           area: "Gran Madre / Sassi",
           mapsQuery: "Gran Madre di Dio, Torino",
+          photo: { src: sassiStation, alt: "Sassi station — the lower terminus of the Cremagliera historic rack tram up to Superga" },
         },
         {
           name: "Basilica di Superga + Royal Tombs",
           why: "The grand hilltop basilica, reached by the rack tram (~18 min up), holds the royal tombs of the House of Savoy and a sweeping view over the city and mountains.",
           area: "Superga",
           mapsQuery: "Basilica di Superga",
+          photo: { src: supergaBasilisca, alt: "The Basilica di Superga — Turin's grand hilltop church holding the Royal Tombs of the House of Savoy" },
         },
         {
           name: "Lunch near Sassi",
@@ -491,11 +553,16 @@ export const TURIN: Trip = {
           mapsQuery: "ristorante Sassi Torino",
         },
       ],
-      photos: [],
+      photos: [
+        { src: superga2, alt: "Basilica di Superga rising above the hills east of Turin" },
+        { src: supergaBasilisca, alt: "The grand baroque facade of the Basilica di Superga" },
+        { src: tombOfSavoy, alt: "The Royal Tombs of the House of Savoy inside the Basilica di Superga" },
+        { src: sassiStation, alt: "Sassi station — the starting point of the historic rack tram to Superga" },
+      ],
       intel: [
         "It's a big walking day, so pace yourself. The panorama from Superga is the keeper photo of the trip.",
       ],
-      heroImage: day7,
+      heroImage: supergaImg,
     },
     {
       n: 8,
@@ -556,7 +623,7 @@ export const TURIN: Trip = {
       intel: [
         "Pack the wine and oils in your CHECKED bag, not your carry-on. Leave early — the 06:13 train is the one you must make.",
       ],
-      heroImage: day8,
+      heroImage: panino,
     },
   ],
   food: [
