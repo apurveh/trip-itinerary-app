@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { loadTrip } from "@/lib/loadTrip";
 import Anchors from "@/components/day/Anchors";
 import IdeaCard from "@/components/day/IdeaCard";
+import DayGallery from "@/components/day/DayGallery";
 import Sticker from "@/components/primitives/Sticker";
 
 export default function Day() {
@@ -40,6 +41,16 @@ export default function Day() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
           {day.ideas.map((idea, i) => <IdeaCard key={i} idea={idea} />)}
         </div>
+      </>)}
+      {day.photos.length > 0 && (<>
+        <h2 className="t-display" style={{ fontSize: 32, marginTop: 36 }}>📸 GALLERY</h2>
+        <DayGallery photos={day.photos} />
+      </>)}
+      {day.intel.length > 0 && (<>
+        <h2 className="t-display" style={{ fontSize: 32, marginTop: 36 }}>🕵️ INTEL</h2>
+        <ul className="t-typewriter" style={{ fontSize: 13, lineHeight: 1.7 }}>
+          {day.intel.map((t, i) => <li key={i}>{t}</li>)}
+        </ul>
       </>)}
     </main>
   );
