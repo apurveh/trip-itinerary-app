@@ -1,171 +1,267 @@
-# Mobile-First Dossier Redesign — Design Spec
+# Mobile-First Dossier Redesign — Design Spec (v2)
 
 **Date:** 2026-06-28
 **App:** The Clara & Apurva Files (Turin trip itinerary, React + Vite + TS + Tailwind)
-**Primary device:** phone, used *during* the trip, often outdoors in bright sun
+**Primary device:** phone, used *during* the trip, outdoors, bright Italian summer sun, often
+one-handed, frequently on roaming / spotty / no data.
+**v2 note:** revised after a 5-lens adversarial review (accessibility, mobile-robustness,
+performance/offline, UX/IA, visual-coherence). Changes from v1 are marked **[v2]**.
 
 ---
 
 ## 1. Problem
 
-The app is built desktop-first with hardcoded pixel positioning, then patched for mobile
-with `!important` overrides. On a phone it visibly breaks:
+The app is desktop-first with hardcoded pixel positioning, patched for mobile with `!important`.
+On a phone it visibly breaks:
 
-- **Overflow:** hub stats use `repeat(4, 1fr)` → the 4th ticket bleeds off-screen; the
-  marquee text clips at the viewport edge.
-- **Collisions:** `TripHero` uses absolute-positioned tape, stamps, a folder tab and rotated
-  stickers with pixel offsets that assume a wide layout → on mobile they stack on top of each
-  other and the content (e.g. the "TOP TIRAMISÙ" stamp slices through the polaroid).
-- **Visual cacophony:** 5 font families (Anton, Bebas, Special Elite, IBM Plex Mono, Playfair),
-  5 loud accent colors (wine, amber, teal, pink, classified-red), and 6 decoration systems
-  (stamps, tape, stickers, punch-holes, redaction bars, marquee) all firing at once.
-- **Wrong mental model for the itinerary:** the Day page leads with "THE MENU — pick any,
-  skip any, in any order." The user wants a *sequenced plan* ("then this, then that"). The
-  data already has timed `anchors` (a real spine); they're buried under the buffet.
-- **Dead weight:** locked stamp wall, "ASSIGNMENT TBD" pending cards, empty "FILE EMPTY"
-  memories, "00" stats, world-map panel — all render as placeholder clutter.
-- **Weather understated:** says "28–32 °C"; early-July Turin realistically runs 30–35 °C with
-  heatwaves higher, and the schedule isn't built around the heat.
-- **Role framing:** Clara is labelled "Cultural Attaché" — reads as a sidekick to Apurva's
-  "Field Agent." They should be co-equals.
+- **Overflow:** hub stats `repeat(4,1fr)` → 4th ticket off-screen; marquee text clips at the edge.
+- **Collisions:** `TripHero` absolute-positioned tape/stamps/tab/rotated stickers (pixel offsets)
+  stack over content (the "TOP TIRAMISÙ" stamp slices the polaroid).
+- **Cacophony:** 5 font families, 5 loud accent colors, 6 decoration systems firing at once.
+- **Wrong itinerary model:** the Day page leads with "THE MENU — pick any, in any order" (a
+  buffet) when the user wants sequenced "what's next" structure. The data has timed `anchors`
+  (a real spine) buried under the menu.
+- **Dead weight:** locked stamp wall, "ASSIGNMENT TBD" cards, empty memories, "00" stats, world map.
+- **Weather understated** ("28–32 °C") and not built into the plan.
+- **Role framing:** Clara = "Cultural Attaché" reads as Apurva's sidekick.
 
 The theme is not the problem. The lack of a disciplined system is.
 
 ## 2. Goals
 
-1. **Mobile-first** — single-column, fluid, nothing ever overflows or collides on a phone.
-2. **One disciplined visual system** — the dossier *soul* stays; the cacophony goes.
-3. **Sequenced day plans** — each day reads as a morning→evening timeline ("what's next").
-4. **Heat-aware** — realistic Turin July heat baked *into* the plan, not just a tips box.
-5. **No dead weight** — remove every placeholder/empty section.
-6. **Co-equal travelers** — Clara and Apurva both "Field Agent" rank.
-7. **A disciplined pixel-art motif** — retro-game flavor that *unifies* rather than clashes.
+1. Mobile-first — single column, nothing overflows or collides on a phone.
+2. One disciplined visual system — keep the dossier soul; kill the cacophony.
+3. Sequenced day plans that respect a spontaneous traveller (anchors, not a clock cage).
+4. Heat-aware — realistic Turin July heat baked into the plan, day-by-day.
+5. No dead weight — remove every placeholder section **and its data**.
+6. Co-equal travelers — Clara and Apurva both "Field Agent."
+7. A disciplined **stencil-grid** icon motif (the "pixel" request, reframed — see §3.4).
+8. **[v2]** Usable offline / on bad data — the defining condition of in-trip use (see §5).
 
-## 3. Design system (the core of the fix)
+## 3. Design system
 
-### Typography — 5 fonts → 3, each with exactly one job
+### 3.1 Typography — 5 → 3 faces, each one job
 - `Anton` — large display titles only (page titles, day numbers, big stats).
-- `IBM Plex Mono` — small uppercase labels & meta (times, tags, "FIELD MANUAL · 1–8 JULY").
-- One readable serif (`EB Garamond` / `Playfair` for the italic "quote" voice) — body copy and
-  the personal one-liners. Warm, legible at length in sunlight.
-- **Removed as text faces:** Bebas Neue, and Special Elite as a *body* font (kept only,
-  optionally, as a rare 1-line accent — it is unreadable at paragraph length on a phone).
+- `IBM Plex Mono` — small uppercase labels & meta (times, tags, eyebrows). **Min 12px**,
+  tracking capped ~0.12em (wide tracking only ≥14px). **[v2]**
+- Serif voices, split by job **[v2]**: **EB Garamond = body** (upright, ≥16px, readable in sun);
+  **Playfair = the italic "quote" voice only** (short one-liners — never running body, never
+  italic paragraphs).
+- **Removed as text faces:** Bebas Neue; Special Elite as a *body* font (currently the global
+  body font — this is a real refactor, not a token tweak). **[v2]**
+- **[v2]** No pixel/stencil *text or numerals* ever — the grid motif is icon-only, so the
+  letterform count stays at three.
+- **[v2]** Type sizes in `rem`-anchored `clamp()` (not raw `px`/`vw`), so user font-scaling and
+  200%-zoom work; display floors lowered for ≤360px; long display words `overflow-wrap:anywhere`.
 
-### Color — 5 accents → 2 (+ rare highlight)
-- **Base:** warm ink on manila paper (the identity — unchanged).
-- **Primary accent:** wine. **Secondary:** amber, used sparingly.
-- **Retired from structural use:** teal, pink, classified-red. Red may survive as *one* rare
-  stamp highlight. Travelers no longer color-coded pink/amber as identity.
+### 3.2 Color — 5 → 2 accents (+ 1 functional red)
+- Base: warm ink `#1a1612` on manila paper (identity — unchanged).
+- **Primary:** wine `#7a1f1f`. **Secondary:** amber `#c97614`.
+- **[v2] Amber is fill-only.** Amber on manila ≈ 2.35:1 / on paper ≈ 3.1:1 — fails WCAG and dies
+  in sun. Amber may only sit *behind* dark ink (ink text on an amber chip). Any amber *foreground*
+  uses `--amber-deep #8b4f08`. All load-bearing text is ink or wine.
+- **[v2] The retired `--classified` red is repurposed as a functional time-lock alarm** — used
+  ONLY on hard, miss-it-and-the-trip-breaks locks (e.g. Avigliana shuttle 09:00/10:00/14:00/16:00,
+  the 06:13 departure train). Not decoration.
+- **Retired from structural use:** teal, pink. **[v2]** Migrate `days[].sticker:"teal"` (Days 3, 6)
+  and `travelers[].color` (pink/amber) out of the data — no color-as-identity.
+- **[v2] Color never carries meaning alone.** Day-part order, booking state, and lead agent are
+  encoded by label/shape/icon, not hue (see §3.3, §4, §6).
 
-### Decoration — max ONE flat accent per screen
-- No absolute-positioned tape/stamps/stickers piled over content. No rotation collisions.
-- At most one un-rotated stamp **or** one strip of tape per screen, as deliberate punctuation.
-- **Paper-grain `mix-blend: multiply` overlay:** removed on mobile (kills sunlight legibility
-  + costs perf); at most a whisper (≤0.15 opacity) on larger screens.
+### 3.3 Booking state — encoded by shape + icon + text, never color **[v2]**
+The trip's most safety-critical signal. Three states, visually distinct without relying on hue:
+- **booked:** solid wine chip · ✓ · confirmation number shown.
+- **to-book:** outlined/ghost chip · → · "BOOK THIS" (links to official site).
+- **na:** plain mono, no chip.
+- **hard time-lock:** the functional red alarm marker (§3.2) in addition.
 
-### Pixel-art motif (new, disciplined)
-A single coherent retro-game layer, all in the ink/wine/amber palette so it reads as one system:
-- Pixel-art **icons** for anchor/stop types: ticket, transit/train, market, food, viewpoint,
-  hydration. These replace the current lucide icons on the Day timeline.
-- Pixel **map-pin** marker used on every "open in maps" affordance.
-- A pixel **Mole Antonelliana / Turin skyline** silhouette as a hero/footer motif.
-- Pixel **divider rules** between day-part bands and a pixel **heat/sun** badge.
-- Implementation: inline SVG with crisp edges (`shape-rendering: crispEdges`) or small
-  CSS box-shadow sprites — no raster assets, no new fonts. Kept monochromatic per context.
+### 3.4 Stencil-grid iconography (the "pixel" request, made coherent) **[v2 — major revision]**
+8-bit "retro-game" pixels would clash (1980s digital vs 1940s analog). Reframed: keep the crisp
+gridded **geometry**, drop the game **semantics**, so each icon reads as a *stencil / rubber-stamp
+cut on a grid* — historically analog and on-theme.
+- **Icon-only, monochrome ink, functional.** Renders via inline SVG `shape-rendering:crispEdges`,
+  defined once as a shared `<symbol>` sprite (not duplicated per row).
+- **Used as a *swap*, not an addition:** replaces the current lucide icons on stops + the maps glyph.
+  - Anchor/stop types, reconciled to the data enums **[v2]**: ticket, train/transit, shuttle,
+    flight, market, food, viewpoint, hydration (see §6 — enum + `Idea.kind` get extended).
+  - A **sun-arc** glyph doubles as the day-part band marker (low→high→setting) AND the heat cue.
+  - A map-pin on every stop that has a real destination.
+- **Cut (net-new decoration that re-forks the brand):** the pixel Mole skyline hero motif and
+  pixel divider rules. Heat cues ride the **existing stamp vocabulary** (a "☀ HOT · INDOORS 13–16"
+  tag), not a new pixel badge.
+- **Tiered decoration rule [v2]:** functional/systematic marks (stencil icons, map-pins, mono
+  labels) are monochrome ink, repeat freely, and do **not** count as "the accent." The
+  "one loud accent per screen" rule governs only decorative punctuation (a colored stamp/tape/
+  sticker). One loud accent per screen; unlimited quiet functional marks.
 
-### Spacing & layout primitives
-- Mobile-first fluid scale (e.g. `clamp` anchored to small screens, not shrunk from desktop).
-- One container: comfortable side padding on mobile, max-width centered on desktop.
-- Min 44px tap targets. Generous vertical rhythm. `overflow-x` impossible by construction.
+### 3.5 Decoration & texture
+- No absolute-positioned tape/stamps piled over content; no rotation collisions.
+- **[v2] Paper-grain `mix-blend:multiply` overlay:** ship the removal now — `opacity:0` at
+  ≤720px and under `prefers-reduced-transparency`; ≤0.12 elsewhere; never over body text. (It's
+  also a fixed full-viewport multiply layer that repaints every scroll frame — perf + legibility.)
+- Hard offset box-shadows kept only on interactive/sticker elements; never stacked; none on the
+  masthead. **[v2]** Shadow offsets must fit *inside* container padding so they can't cause
+  horizontal scroll at 320px.
 
-## 4. Page redesigns
+### 3.6 People, places, things — one representation each **[v2]**
+- **Places/memories = photos.** **Wayfinding/UI = stencil icons.** **People = ONE avatar system.**
+- **Emoji avatars (🕵️/🍷) removed** — full-color, vendor-specific, off-palette, and re-encode the
+  retired sidekick coding. Avatar treatment: **OPEN DECISION (§11) — stencil portraits vs a
+  monochrome "passport/ID-photo" treatment.** Whichever is chosen is the *only* way people appear.
 
-### Compact sticky header (App / CaseHeader)
-- Short, never-clipping bar: wordmark + a back affordance on inner pages. No content cut off.
+### 3.7 Layout primitives
+- One container: comfortable mobile side-padding (≥16px), max-width centered on desktop, **plus a
+  defined intermediate (tablet 600–1024px) layout** so iPad isn't a thin ribbon. **[v2]**
+- Min **44px** tap targets, enforced (min-height + hit padding on every link/chip/input; inputs
+  16px font to avoid iOS zoom-on-focus). **[v2]**
+- Global **`:focus-visible { outline:3px solid var(--wine); outline-offset:2px }`** + distinct
+  input focus ring. **[v2]**
+- **Safe-area insets [v2]:** `<meta viewport … viewport-fit=cover>`; `env(safe-area-inset-*)`
+  padding on the sticky header, the fixed ScrollToTop button, and any sticky strip.
+- **Sticky-header offset [v2]:** a single `--header-h` token consumed by both the header and
+  `scroll-margin-top`/`scroll-padding-top` on every in-page jump target, so anchored jumps don't
+  hide behind the header.
+- `overflow-x` impossible by construction; verified at 320px.
 
-### Hub (`/`)
-- **Masthead:** "THE CLARA & APURVA FILES" title (fluid, no shadow pile-up), tagline, the two
-  travelers as equal chips.
-- **One real stat line** built only from true values (e.g. "1 trip · 8 days · Turin"). No "00".
-- **The one active trip** as a single clean feature card → opens the dossier.
-- **Removed:** locked StampWall, "ASSIGNMENT TBD" PendingCards, WorldMapPanel, marquee clutter
-  (a single quiet status strip may remain if it adds value, else cut).
+## 4. Day model — shapes, not a clock cage **[v2 — major revision]**
 
-### Trip dossier (`/trips/:slug`)
-- **Hero:** rebuilt mobile-first — title, dates, tagline, the two agents, 2–3 *flat* tags (no
-  rotated overlapping stickers), one hero photo that never gets sliced by a stamp. One small
-  flat stamp accent max.
-- **Meta bar:** stacks cleanly on mobile (no 5-col fixed grid); shows duration, base, agents,
-  budget, and corrected temp.
-- **Status banner:** kept (it's genuinely useful — T-minus / today / next fixed anchor).
-- **Day index:** a clean vertical list of the 8 days, each linking to its timeline.
-- **Safehouse / Rendezvous / Packing / Budget / Practical:** kept, restyled mobile-first to the
-  new system; horizontal-scroll day scroller removed in favor of clean stacking.
-- **Memories:** removed while empty (re-introduced later when real photos exist).
+Each day declares a **shape** so loose days aren't forced into empty time-bands (honors the
+traveller's "anchors, not schedules" style while still giving "what's next" structure):
 
-### Day timeline (`/trips/:slug/day/:n`) — the headline change
-- Header: day number, title, the funky label (one flat sticker), weekday/date, lead agent,
-  the personal summary, and "getting there."
-- **Body = ONE vertical chronological timeline**, grouped into bands:
-  **MORNING · MIDDAY · AFTERNOON · EVENING.**
-  - Fixed/timed `anchors` are the **spine**: shown with time, place, one line, transit, a
-    booking chip (booked ✓ / book-this →), confirmation-number slot, and a pixel map-pin link.
-  - `ideas` (the old menu) become **optional inline side-stops** slotted into the right band —
-    framed as "if you have time / nearby," never "in any order." Each keeps why/area/cost/tip/
-    photo/map link.
-  - The hot **13:00–16:00** band is explicitly an indoor-museum / siesta window.
-- Gallery + Intel: kept below, restyled.
-- **No more "THE MENU — pick any, skip any, in any order."**
+- **`anchored`** (most city days): a vertical spine of the few **timed/fixed anchors** in order,
+  each with time · place · one line · transit · booking chip (§3.3) · confirmation slot · map-pin.
+  Untimed `ideas` are **NOT** interleaved as if scheduled — they collect into a single
+  **"ANYTIME · NEARBY"** group rendered *after* the spine (each keeps why/area/cost/tip/photo/map).
+- **`route`** (Susa Day 6, Superga Day 7): the ideas ARE the plan — render them as an **ordered
+  walk** (step 1→N), not "optional side-stops." The one fixed thing (e.g. return train) is pinned.
+- **`transit`** (arrival Day 1, departure Day 8): a **countdown checklist** of ordered steps with
+  the single hard time (06:13 train, 04:45 wake) alarm-marked; no morning→evening bands.
 
-## 5. Heat-awareness
+Rules:
+- **Band boundaries (only for `anchored`) are pinned + unit-tested [v2]:** morning <12:00 ·
+  midday 12:00–14:59 (13:00–16:00 styled as the heat sub-window) · afternoon 15:00–17:59 ·
+  evening ≥18:00. Empty bands render nothing (no empty header).
+- **Banding/sorting reads a parsed `startMin`, never prose [v2]** (see §6) — the current
+  `^\d{2}:\d{2}` regex silently drops "from 07:00", "ONLY 09:00 / 10:00…", "≈ hourly", which are
+  the *most* time-critical anchors.
+- **Empty states [v2]:** zero anchors / zero ideas / zero photos → the section is omitted (no
+  empty headings; Day 6 & 8 have `photos: []`). `Day.tsx` must also guard `anchors` (currently
+  unguarded).
+- **Live "now / next" lives on the Day page [v2]**, not only the Trip banner: the current band and
+  next stop highlight live (reuse `tripStatusAt`/`nextAnchor`), and "next" falls back to the next
+  band/idea group when no timed anchor remains (so guidance doesn't go blank after 10:00).
+- **Past/upcoming/in-progress states [v2]:** upcoming = plan; in-progress = live highlight;
+  completed = static recap (no "book this"). Wire to the clock or drop the stale hardcoded
+  `trip.status:"upcoming"`.
 
-- Weather data corrected to **~30–35 °C, humid, heatwaves higher**; "save indoor museums for the
-  hot afternoon; hydrate; refill at the green *toret* fountains" elevated from a buried tip.
-- Timeline-level cues: a pixel sun/heat badge on outdoor stops, "shade" tag on arcaded routes
-  (Via Roma), indoor stops surfaced for the 13:00–16:00 band, hydration reminders in Intel.
-- Packing already lists a refillable bottle; surface heat gear (hat, sunscreen) if missing.
+## 5. Heat-awareness & offline
 
-## 6. Data / content changes
+### Heat **[v2 day-aware]**
+- `tips.weather` corrected to **~30–35 °C, humid, heatwaves higher** (single source of truth; day
+  badges derive from it — no drift).
+- City days: surface indoor stops for the 13:00–16:00 heat window + a "☀ HOT · INDOORS 13–16" tag.
+- **Day-trip days are outdoors midday** (Sacra shuttle 14:00, Susa, Superga) — heat guidance there
+  is **shade · water · early-start**, not "go indoors." Heat copy is day-aware, not one global rule.
+- Hydration / green *toret*-fountain cues on outdoor stops; confirm packing lists hat + sunscreen.
 
-- `travelers`: both `role: "Field Agent"`; drop the pink/amber identity coloring as structural.
-  Differentiation is by *who leads which day* (`lead`), already in the data — not by rank.
-- `tips.weather`: rewritten to realistic heat (see §5).
-- Day rendering: a small pure helper merges `anchors` + `ideas` into ordered day-part bands.
-  Prefer a render-time transform over a data migration; if ideas need explicit ordering, add an
-  optional `band?: "morning"|"midday"|"afternoon"|"evening"` to `Idea` (non-breaking).
-- `hubData.stats`: replaced with real-value-only line; remove `pendingFiles` usage.
+### Offline / performance **[v2 — was out of scope; now flagged as core]**
+For a phone used mid-trip on bad data, "re-download everything from Google every time" is the
+single biggest hole. **Recommended (OPEN DECISION §11 — adds scope):**
+- **PWA + service worker** (`vite-plugin-pwa`/Workbox): precache the app shell (~74KB gz JS +
+  ~4KB gz CSS + `turin.ts`) and self-hosted fonts; runtime-cache images (CacheFirst LRU). Add a
+  web manifest so it installs to the home screen and opens instantly with no signal.
+- **Images:** ~8 MB of 1080–1707px JPGs rendered at ~360px (3–5× oversampled). Resize to ~2×
+  display width (≤~800px), emit AVIF/WebP via `srcset`/`<picture>` (e.g. `vite-imagetools`).
+  Expect ~8 MB → ~1–1.5 MB. **In scope regardless of PWA.**
+- **Every `<img>` gets intrinsic `width`/`height` or `aspect-ratio`** (zero do today) → no layout
+  jump as images stream in on slow data. Day hero `height:220` fixed → `aspect-ratio`. **In scope.**
+- **Self-host the 3 fonts** (woff2, Latin subset, `font-display:swap`); drop Google Fonts origins.
+- Hero `fetchpriority="high"` + `decoding="async"`; below-fold stays `loading="lazy"`.
+- Drop `framer-motion` (only `useReducedMotion` is used, already tree-shaken) → 5-line `matchMedia`
+  hook. Low urgency, keeps the dep tree clean.
 
-## 7. Component inventory
+## 6. Data / content changes **[v2 expanded]**
+
+- **`Anchor` gains** `startMin?: number` (parsed minutes-from-midnight for banding/sorting; prose
+  `time` kept for display), `mapsQuery?: string` (render map-pin only when a real destination
+  exists — not on "Wake-up"), and `confirmationKey` on **every bookable** anchor (MAUTO, Sacra
+  train, Susa train, Sassi–Superga tram currently lack it). Booking chip flips toBook→booked
+  locally once a confirmation is entered.
+- **`Idea` gains** optional `kind?` (food/viewpoint/market/…) so side-stops pick a stencil icon
+  deterministically instead of guessing from prose; ideas are **never** force-banded by array index.
+- **`AnchorType` enum reconciled** with the icon set (add viewpoint/food/hydration or map them;
+  shuttle/flight already exist).
+- **`Day` gains** `shape: "anchored" | "route" | "transit"` (§4).
+- **`travelers`:** both `role:"Field Agent"`; drop `color`/emoji as identity.
+- **`tips.weather`** rewritten (§5); becomes the single weather source of truth.
+- **Remove placeholder DATA**, not just its render: `memories:[FILE EMPTY ×4]`, `pendingFiles`,
+  the "00" stat values. Keep `Memory`/`PendingFile` *types* for later.
+- **Source-of-truth pass:** day intel references packing/weather rather than re-stating; idea
+  `cost` vs Budget reconciled so the two layers can't contradict.
+- **localStorage confirmations don't sync across the two phones** — note the limitation in-UI
+  ("saved on this phone only"); true sync is out of scope.
+
+## 7. Page redesigns
+
+- **Sticky header:** short, never-clipping; wordmark + context-aware back. **[v2]** Day → back to
+  Trip day-index (not Hub); Trip → back to Hub. Confirm `BackToHub` isn't used on Day pages.
+- **Hub:** masthead (no shadow pile-up) + tagline + the two equal travelers; one real stat line
+  (no "00"); the one active trip as a clean feature card. **Removed:** StampWall, PendingCards,
+  WorldMapPanel, marquee clutter.
+- **Trip dossier:** mobile-first hero (title, dates, tagline, two agents, 2–3 *flat* tags, one hero
+  photo never sliced, ≤1 flat stamp); meta bar stacks (no 5-col fixed grid) with corrected temp;
+  StatusBanner kept; clean vertical day index; Safehouse/Rendezvous/Packing/Budget/Practical kept
+  & restyled with **dual labels [v2]** (themed mono eyebrow + plain heading: "RENDEZVOUS"→"Where to
+  meet", "SAFEHOUSE"→"Base / Apartment"); horizontal day-scroller removed; Memories removed while
+  empty.
+- **Day:** the §4 shape-aware timeline; **prev/next-day controls [v2]**; gallery + intel below,
+  restyled; live now/next highlight.
+
+## 8. Component inventory
 
 **Keep & restyle:** App/CaseHeader, ScrollToTop, Reveal, TripHero, StatusBanner, DayIndex,
-Safehouse, Rendezvous, PackingList, BudgetSection, PracticalInfo, BackToHub, AvatarChip,
-FeatureTripCard, Anchors (folded into the timeline), IdeaCard (becomes side-stop), DayGallery,
-Sticker/Stamp/Tape/PunchHoles (demoted to disciplined accents).
-
+Safehouse, Rendezvous, PackingList, BudgetSection, PracticalInfo, AvatarChip (re-skinned to the
+chosen avatar system), FeatureTripCard, DayGallery, Sticker/Stamp/Tape/PunchHoles (disciplined
+accents only).
+**Refactor into the shape-aware Day:** Anchors (→ timed spine), IdeaCard (→ ANYTIME/NEARBY card or
+route step). **Context-fix:** BackToHub (Day→Trip).
 **Remove (placeholder/dead weight):** StampWall, PassportStamp, PendingCard, WorldMapPanel,
-MemoriesSection (while empty), MarqueeStrip (unless one quiet strip earns its place).
+MemoriesSection (while empty), MarqueeStrip (unless one reduced-motion-safe, non-overflowing strip
+earns its place).
+**Add:** stencil-icon `<symbol>` sprite (types, sun-arc, map-pin); shape-aware `Timeline`/day-band
+renderer + the parse/merge helper; shared mobile-first layout/type tokens (migrate inline styles →
+CSS classes so the system is enforced in one place); responsive `<Image>` wrapper (srcset +
+intrinsic dimensions); `matchMedia` reduced-motion hook.
 
-**Add:** pixel-icon set (anchor types, map-pin, sun/heat, skyline), a `Timeline`/day-band
-renderer, and shared mobile-first layout/type tokens (migrate inline styles → CSS classes /
-Tailwind utilities so the system is enforced in one place, not copy-pasted per component).
+## 9. Accessibility checklist **[v2]**
 
-## 8. Approach to the styling refactor
+Amber fill-only · global `:focus-visible` + input ring · 44px targets · booking/band/lead encoded
+by shape+icon+text not hue · grain off on mobile · timeline as `<ol>` with real `<h2>/<h3>` band
+headings in document order and `<time>` for times · stencil SVGs `aria-hidden` with a visible text
+label always present · meaningful hero `alt` (not `alt=""`) · italic limited to short quotes ·
+reduced-motion disables marquee + reveal + hover-lift · skip-to-content link · confirm
+`index.html` viewport allows pinch-zoom (no `maximum-scale`/`user-scalable=no`) · `.redacted` joke
+`aria-hidden`.
 
-The inline-style sprawl is why the system can't be enforced. Consolidate the recurring patterns
-(cards, labels, timeline rows, chips, bands, pixel accents) into named CSS classes in
-`globals.css` (extending the existing token block) and/or Tailwind utilities, then have
-components consume them. This is what makes "one disciplined system" real rather than aspirational.
-Refactor is scoped to components touched by this redesign — no unrelated rewrites.
+## 10. Verification
 
-## 9. Verification
+- Manual at **320px and ~390px** across Hub → Trip → every Day shape (anchored/route/transit):
+  zero horizontal overflow, no overlapping decorations, legible in simulated glare, working
+  map/booking/confirmation/prev-next links; **landscape** and **200% text-zoom** passes.
+- Unit tests: keep `mapsLink`, `tripClock` green; **add tests for** the time-string parser
+  (`startMin` for "from 07:00", "ONLY 09:00 / 10:00", "≈ hourly", "10:00–19:00") and the
+  band-boundary merge helper.
+- Tablet/desktop scale-up check.
 
-- Manual: drive the running app at a phone width (~390px) across Hub → Trip → each Day; confirm
-  zero horizontal overflow, no overlapping decorations, legible type, working map/booking links.
-- Keep existing unit tests green (`mapsLink`, `tripClock`); add a test for the
-  anchors+ideas → day-band merge helper.
-- Cross-check at tablet/desktop widths for graceful scale-up.
+## 11. Open decisions for the user
 
-## 10. Out of scope (this pass)
+1. **Offline/PWA (scope):** add the service-worker + manifest so the app works offline mid-trip?
+   Strongly recommended for this use case; adds build setup. (Image resizing + intrinsic
+   dimensions happen either way.)
+2. **Avatar treatment:** stencil-grid portraits (reinforces the icon system) **or** a monochrome
+   "passport/ID-photo" treatment (warmer, more personal)? This is *you two*, so it's your call.
 
-- New trips beyond Turin; real memories/photos; multi-trip archive features; backend/data
-  persistence beyond the existing localStorage confirmation slots.
+## 12. Out of scope (this pass)
+
+New trips beyond Turin; real memories/photos; multi-trip archive; cross-device confirmation sync;
+backend persistence beyond the existing localStorage slots.
