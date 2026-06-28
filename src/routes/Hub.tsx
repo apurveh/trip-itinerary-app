@@ -1,6 +1,5 @@
 import AvatarChip from "@/components/brand/AvatarChip";
 import FeatureTripCard from "@/components/hub/FeatureTripCard";
-import PendingCard from "@/components/hub/PendingCard";
 import WorldMapPanel from "@/components/hub/WorldMapPanel";
 import StampWall from "@/components/hub/StampWall";
 import FooterStrip from "@/components/hub/FooterStrip";
@@ -180,21 +179,6 @@ export default function Hub() {
           <Reveal>
             <FeatureTripCard trip={trip} />
           </Reveal>
-
-          <div
-            style={{
-              marginTop: 56,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 22,
-            }}
-          >
-            {data.pendingFiles.map((p, i) => (
-              <Reveal key={p.code} delay={i * 80}>
-                <PendingCard {...p} />
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 

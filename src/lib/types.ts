@@ -136,5 +136,5 @@ export interface HubData {
   tagline: string;
   archive: string;
   stats: { n: string; label: string }[];
-  pendingFiles: PendingFile[];
+  pendingFiles?: PendingFile[];
 }
