@@ -1,4 +1,4 @@
-import React from "react";
+import type { CSSProperties } from "react";
 
 interface Props {
   src: string;
@@ -7,7 +7,7 @@ interface Props {
   height: number;
   priority?: boolean;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export default function Image({ src, alt, width, height, priority, className, style }: Props) {
