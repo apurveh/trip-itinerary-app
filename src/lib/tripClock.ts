@@ -1,7 +1,10 @@
-import type { Anchor, Day, TripStatus } from "./types";
+import type { Anchor, BandKey, Day, TripStatus } from "./types";
+import { parseStartMin } from "./parseTime";
 
 const DAY_MS = 86_400_000;
 const toUTC = (iso: string) => Date.parse(`${iso}T00:00:00Z`);
+const hhmmToMin = (s: string) => Number(s.slice(0, 2)) * 60 + Number(s.slice(3, 5));
+const anchorMin = (a: Anchor) => a.startMin ?? parseStartMin(a.time);
 
 export function tripStatusAt(nowISO: string, startISO: string, endISO: string): {
   status: TripStatus; dayNumber: number | null; daysUntil: number;
@@ -14,7 +17,18 @@ export function tripStatusAt(nowISO: string, startISO: string, endISO: string): 
 }
 
 export function nextAnchor(day: Day, nowHHMM: string): Anchor | null {
-  const timed = day.anchors.filter((a) => a.time && /^\d{2}:\d{2}/.test(a.time));
-  const found = timed.find((a) => (a.time as string).slice(0, 5) >= nowHHMM);
-  return found ?? null;
+  const now = hhmmToMin(nowHHMM);
+  return [...day.anchors]
+    .filter((a) => anchorMin(a) != null)
+    .sort((x, y) => (anchorMin(x)! - anchorMin(y)!))
+    .find((a) => anchorMin(a)! >= now) ?? null;
+}
+
+export function nextStop(
+  day: Day,
+  nowHHMM: string,
+): { kind: "anchor"; anchor: Anchor } | { kind: "band"; band: BandKey } | null {
+  const a = nextAnchor(day, nowHHMM);
+  if (a) return { kind: "anchor", anchor: a };
+  return null; // future: next non-empty band; null is correct when no later timed content
 }
