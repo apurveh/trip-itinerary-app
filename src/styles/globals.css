@@ -268,9 +268,10 @@ body::before {
   letter-spacing: 0.05em;
 }
 
-/* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 600ms ease, transform 600ms ease; }
-.reveal.in { opacity: 1; transform: translateY(0); }
+/* Reveal: visible by default; animate only as additive enhancement */
+.reveal { opacity: 1; transform: none; }
+.reveal-anim { opacity: 0; transform: translateY(24px); transition: opacity 600ms ease, transform 600ms ease; }
+.reveal-anim.in { opacity: 1; transform: translateY(0); }
 
 /* Marquee */
 @keyframes marquee {
@@ -315,7 +316,7 @@ body::before {
 .hover-lift:hover { transform: translateY(-4px); }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { transition: none; opacity: 1; transform: none; }
+  .reveal, .reveal-anim { transition: none; opacity: 1; transform: none; }
   .hover-lift { transition: none; }
   .hover-lift:hover { transform: none; }
 }
