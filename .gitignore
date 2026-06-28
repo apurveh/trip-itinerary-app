@@ -43,3 +43,8 @@ lerna-debug.log*
 
 # design references — kept locally, not shipped
 /Design From Claude
+
+# dev/agent scratch — screenshots, playwright output, progress ledger
+/.playwright-mcp
+/.superpowers
+/*.png
