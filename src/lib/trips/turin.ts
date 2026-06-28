@@ -20,7 +20,7 @@ import egizio2 from "@/assets/trips/turin/egizio-2.jpg";
 import piazzaCastello1 from "@/assets/trips/turin/piazza-castello-1.jpg";
 import palazzoReale from "@/assets/trips/turin/palazzo-reale.jpg";
 
-// Day 3 — Riverside + aperitivo (MAUTO has no photo — gap noted)
+// Day 3 — Riverside + aperitivo
 import boRiver from "@/assets/trips/turin/bo-river.jpg";
 import parcoDelValentino from "@/assets/trips/turin/parco-del-valentino.jpg";
 import parcoDelValentino2 from "@/assets/trips/turin/parco-del-valentino-2.jpg";
@@ -40,7 +40,7 @@ import mortrera from "@/assets/trips/turin/mortrera.jpg";
 import lacsDavcgliana2 from "@/assets/trips/turin/lacs-davcgliana-2.jpg";
 import picnic from "@/assets/trips/turin/picnic.jpg";
 
-// Day 7 — Superga + Sassi rack tram (Monte dei Cappuccini & Villa della Regina have no photo — gaps noted)
+// Day 7 — Superga + Sassi rack tram
 import supergaImg from "@/assets/trips/turin/superga.jpg";
 import superga2 from "@/assets/trips/turin/superga-2.jpg";
 import supergaBasilisca from "@/assets/trips/turin/superga-basilisca.jpg";
