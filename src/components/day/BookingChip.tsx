@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { BookingState } from "@/lib/types";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 
@@ -20,27 +21,49 @@ interface BookingChipProps {
  *
  * Distinguishable by SHAPE + ICON + TEXT — never color alone.
  *
- * State is lifted: ONE useLocalStorage call drives both the chip appearance and
- * the conf input, so typing a conf number immediately flips toBook → booked.
+ * Hook split: chips WITH a confirmationKey persist via useLocalStorage (so the
+ * flip-on-conf survives reloads); chips WITHOUT a key use transient useState and
+ * never touch localStorage. Both paths feed the SAME confValue into the view, so
+ * the single source of truth — driving both `hasConf` and the input — is intact.
  */
-export default function BookingChip({
+export default function BookingChip(props: BookingChipProps) {
+  return props.confirmationKey ? (
+    <KeyedBookingChip {...props} confirmationKey={props.confirmationKey} />
+  ) : (
+    <UnkeyedBookingChip {...props} />
+  );
+}
+
+/** Persistent variant — flip-on-conf survives reloads via localStorage. */
+function KeyedBookingChip(props: BookingChipProps & { confirmationKey: string }) {
+  const [confValue, setConfValue] = useLocalStorage<string>(
+    `conf:${props.confirmationKey}`,
+    ""
+  );
+  return <ChipView {...props} confValue={confValue} setConfValue={setConfValue} />;
+}
+
+/** Transient variant — no confirmationKey, so it never touches localStorage. */
+function UnkeyedBookingChip(props: BookingChipProps) {
+  const [confValue, setConfValue] = useState("");
+  return <ChipView {...props} confValue={confValue} setConfValue={setConfValue} />;
+}
+
+/** Presentational core — appearance + input, driven by a single confValue. */
+function ChipView({
   state,
   link,
   confirmationKey,
   timeLock = false,
-}: BookingChipProps) {
-  // Single source of truth for the confirmation number.
-  // Drives both the chip appearance AND the input value.
-  // When confirmationKey is absent we still call the hook (Rules of Hooks) but
-  // with a stable noop key whose value we never act on.
-  const [confValue, setConfValue] = useLocalStorage<string>(
-    confirmationKey ? `conf:${confirmationKey}` : "__booking_chip_noop__",
-    ""
-  );
-
+  confValue,
+  setConfValue,
+}: BookingChipProps & {
+  confValue: string;
+  setConfValue: (v: string) => void;
+}) {
   if (state === "na") return null;
 
-  // Effective state: toBook flips to booked once a conf number exists locally.
+  // Effective state: toBook flips to booked once a conf number exists.
   const hasConf = Boolean(confirmationKey && confValue.trim());
   const effectiveState: BookingState =
     state === "toBook" && hasConf ? "booked" : state;
@@ -73,14 +96,17 @@ export default function BookingChip({
       )}
 
       {isBooked ? (
-        /* ── BOOKED chip: solid wine, filled shape, check icon, "BOOKED" text ── */
+        /* ── BOOKED chip: non-interactive STATUS BADGE (solid wine + ✓) ──
+           Not a .tap target — it's a badge, not a button. Inline minHeight
+           keeps it visually consistent with the interactive chips. */
         <span
-          className="t-stencil tap"
+          className="t-stencil"
           aria-label="booked"
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 5,
+            minHeight: 30,
             padding: "0 12px",
             background: "var(--wine)",
             color: "var(--cream)",
@@ -94,7 +120,7 @@ export default function BookingChip({
           BOOKED
         </span>
       ) : (
-        /* ── TO-BOOK chip: ghost (outline only), arrow icon, "BOOK THIS" link ── */
+        /* ── TO-BOOK chip: interactive ghost LINK (outline only + →) ── */
         <a
           href={link ?? "#"}
           target="_blank"
