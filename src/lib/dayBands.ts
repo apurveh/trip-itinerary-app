@@ -31,7 +31,7 @@ export function buildAnchoredDay(day: Day): { band: BandKey; anchors: Anchor[] }
   let lastBand: BandKey = "morning";
   for (const a of sorted) {
     const m = mins.get(a);
-    const band = m == null ? lastBand : bandOf(m);
+    const band: BandKey = m == null ? lastBand : bandOf(m);
     lastBand = band;
     if (!groups.has(band)) groups.set(band, []);
     groups.get(band)!.push(a);
