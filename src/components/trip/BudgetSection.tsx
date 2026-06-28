@@ -15,16 +15,27 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+    const t = window.setTimeout(() => setShown(true), 1000);
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setShown(true);
+          if (e.isIntersecting) {
+            setShown(true);
+            io.unobserve(e.target);
+          }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      clearTimeout(t);
+      io.disconnect();
+    };
   }, []);
 
   return (
