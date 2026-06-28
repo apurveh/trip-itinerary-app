@@ -20,14 +20,21 @@ function minOf(a: Anchor): number | null {
 }
 
 export function buildAnchoredDay(day: Day): { band: BandKey; anchors: Anchor[] }[] {
-  const sorted = [...day.anchors].sort((x, y) => (minOf(x) ?? -1) - (minOf(y) ?? -1));
+  // Memoize each anchor's minutes once, so we don't recompute in both the sort and the loop.
+  const mins = new Map<Anchor, number | null>(day.anchors.map((a) => [a, minOf(a)]));
+  // Untimed anchors (null minutes) sort to the front via `?? -1`. They carry no temporal
+  // position, so when processed first `lastBand` is still the initial "morning" default —
+  // i.e. untimed anchors always land in "morning". This intentionally collapses the
+  // "inherit previous timed anchor's band" branch into the morning default by design.
+  const sorted = [...day.anchors].sort((x, y) => (mins.get(x) ?? -1) - (mins.get(y) ?? -1));
   const groups = new Map<BandKey, Anchor[]>();
   let lastBand: BandKey = "morning";
   for (const a of sorted) {
-    const m = minOf(a);
+    const m = mins.get(a);
     const band = m == null ? lastBand : bandOf(m);
     lastBand = band;
-    (groups.get(band) ?? groups.set(band, []).get(band)!).push(a);
+    if (!groups.has(band)) groups.set(band, []);
+    groups.get(band)!.push(a);
   }
   return ORDER.filter((b) => groups.has(b)).map((b) => ({ band: b, anchors: groups.get(b)! }));
 }
