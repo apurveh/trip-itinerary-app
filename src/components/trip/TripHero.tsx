@@ -4,6 +4,7 @@ import Stamp from "@/components/primitives/Stamp";
 import Sticker from "@/components/primitives/Sticker";
 import Tape from "@/components/primitives/Tape";
 import PunchHoles from "@/components/primitives/PunchHoles";
+import Image from "@/components/primitives/Image";
 
 interface TripHeroProps {
   trip: Trip;
@@ -164,7 +165,14 @@ export default function TripHero({ trip, onBack }: TripHeroProps) {
                   }}
                 />
                 <div style={{ aspectRatio: "4/5", overflow: "hidden" }}>
-                  <img src={trip.heroImage} alt="" />
+                  {/* 1200×1800 intrinsic dims → reserves 2:3 space; parent clips to 4:5 */}
+                  <Image
+                    src={trip.heroImage}
+                    alt="Piazza San Carlo, Turin, golden hour"
+                    width={1200}
+                    height={1800}
+                    priority
+                  />
                 </div>
                 <div className="caption">PIAZZA SAN CARLO · GOLDEN HOUR · CONFIDENTIAL</div>
               </div>
