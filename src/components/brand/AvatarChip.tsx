@@ -11,7 +11,7 @@ const COLORS: Record<string, { bg: string; ink: string }> = {
 };
 
 export default function AvatarChip({ traveler, big = false }: AvatarChipProps) {
-  const c = COLORS[traveler.color] ?? COLORS.amber;
+  const c = COLORS[traveler.color ?? "amber"] ?? COLORS.amber;
   const size = big ? 48 : 26;
   return (
     <div

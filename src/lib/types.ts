@@ -2,9 +2,9 @@ export type Tone = "amber" | "wine" | "teal" | "pink" | "cream" | "ink";
 
 export interface Traveler {
   name: string;
-  emoji: string;
+  emoji?: string;
   role: string;
-  color: "amber" | "pink";
+  color?: string;
   initials: string;
 }
 
@@ -14,7 +14,21 @@ export interface Photo {
   credit?: string;
 }
 
-export type AnchorType = "ticket" | "market" | "transit" | "shuttle" | "flight";
+export type AnchorType =
+  | "ticket" | "market" | "transit" | "shuttle" | "flight"
+  | "viewpoint" | "food" | "hydration";
+
+// Idea kind so side-stops pick an icon deterministically (no prose-guessing)
+export type IdeaKind = AnchorType;
+
+export type DayShape = "anchored" | "route" | "transit";
+export type BandKey = "morning" | "midday" | "afternoon" | "evening";
+
+// Stencil icon names (Task 8 sprite)
+export type IconName =
+  | "ticket" | "market" | "transit" | "shuttle" | "flight"
+  | "viewpoint" | "food" | "hydration" | "sun-arc" | "map-pin";
+
 export type BookingState = "booked" | "toBook" | "na";
 
 export interface Anchor {
@@ -25,6 +39,8 @@ export interface Anchor {
   booking: BookingState;
   bookingLink?: string; // official URL when type === "ticket"/"shuttle"
   confirmationKey?: string; // localStorage key for a confirmation-number slot (booked tickets)
+  startMin?: number; // parsed minutes-since-midnight, for banding/sort
+  mapsQuery?: string; // map-pin only when a real destination
 }
 
 export interface Idea {
@@ -35,6 +51,7 @@ export interface Idea {
   tip?: string;
   photo?: Photo;
   mapsQuery: string; // fed to mapsLink()
+  kind?: IdeaKind;
 }
 
 export interface Day {
@@ -53,6 +70,7 @@ export interface Day {
   photos: Photo[];
   intel: string[];
   heroImage: string;
+  shape?: DayShape; // optional until turin.ts is migrated (Task 5)
 }
 
 export interface Cafe {
