@@ -7,6 +7,7 @@ import BudgetSection from "@/components/trip/BudgetSection";
 import PracticalInfo from "@/components/trip/PracticalInfo";
 import MemoriesSection from "@/components/trip/MemoriesSection";
 import BackToHub from "@/components/trip/BackToHub";
+import StatusBanner from "@/components/trip/StatusBanner";
 
 export default function Trip() {
   const { slug = "turin" } = useParams<{ slug: string }>();
@@ -36,6 +37,7 @@ export default function Trip() {
   return (
     <main>
       <TripHero trip={trip} onBack={onBack} />
+      <StatusBanner trip={trip} />
       <DayIndex trip={trip} />
       <BudgetSection trip={trip} />
       <PracticalInfo trip={trip} />
