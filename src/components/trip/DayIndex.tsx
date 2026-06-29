@@ -4,54 +4,28 @@ import Sticker from "@/components/primitives/Sticker";
 
 export default function DayIndex({ trip }: { trip: Trip }) {
   return (
-    <div className="case-container" style={{ display: "grid", gap: 14, marginTop: 28, marginBottom: 28 }}>
+    <div className="case-container day-index">
       {trip.days.map((d) => (
         <Link
           key={d.n}
           to={`/trips/${trip.slug}/day/${d.n}`}
           className="hover-lift day-card"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "64px 1fr auto",
-            gap: 16,
-            alignItems: "center",
-            border: "2px solid var(--ink)",
-            background: "var(--paper)",
-            boxShadow: "5px 5px 0 var(--ink)",
-            padding: "18px 22px",
-            textDecoration: "none",
-            color: "var(--ink)",
-          }}
         >
-          <div className="t-display" style={{ fontSize: 44, lineHeight: 1, color: "var(--wine)" }}>
+          <div className="day-card__num t-display">
             {String(d.n).padStart(2, "0")}
           </div>
-          <div>
+
+          <div className="day-card__body">
             <Sticker tone={d.sticker}>{d.label}</Sticker>
-            <div
-              className="t-mono"
-              style={{
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                marginTop: 6,
-                color: "var(--ink-soft)",
-              }}
-            >
+            <div className="day-card__meta t-mono">
               {d.weekday} {d.date} · {d.title.toUpperCase()}
             </div>
           </div>
-          <div
-            style={{
-              display: "grid",
-              gap: 10,
-              justifyItems: "end",
-              textAlign: "right",
-            }}
-          >
-            <div
-              className="t-typewriter"
-              style={{ fontSize: 12, color: "var(--ink-soft)", maxWidth: 220 }}
-            >
+
+          <div className="day-card__aside">
+            {/* Anchor label is supplementary — hidden on the narrowest screens
+                (see globals.css) so the card never overflows the viewport. */}
+            <div className="day-card__anchor t-typewriter">
               {d.anchors[0]?.label ?? "Free roam"}
             </div>
             {/* Explicit clickability affordance. The whole card is the <Link>,
