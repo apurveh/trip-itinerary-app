@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+# Continuous deployment: every change merged/pushed to main is built and
+# published to the gh-pages branch, which GitHub Pages serves at
+# https://apurveh.github.io/trip-itinerary-app/
+on:
+  push:
+    branches: [main]
+  # Allow manual re-deploys from the Actions tab
+  workflow_dispatch:
+
+# Prevent overlapping deploys; let an in-progress run finish.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push the built site to gh-pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages

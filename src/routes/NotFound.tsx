@@ -3,7 +3,7 @@ import Stamp from "@/components/primitives/Stamp";
 
 export default function NotFound() {
   return (
-    <main className="case-container" style={{ padding: "80px 0", textAlign: "center" }}>
+    <main className="case-container" style={{ paddingTop: 80, paddingBottom: 80, textAlign: "center" }}>
       <div style={{ display: "inline-block", marginBottom: 24, transform: "rotate(-4deg)" }}>
         <Stamp size="large">CASE FILE MISSING</Stamp>
       </div>
