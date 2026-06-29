@@ -38,7 +38,6 @@ export interface Anchor {
   detail: string; // one line of what/where/how
   booking: BookingState;
   bookingLink?: string; // official URL when type === "ticket"/"shuttle"
-  confirmationKey?: string; // localStorage key for a confirmation-number slot (booked tickets)
   startMin?: number; // parsed minutes-since-midnight, for banding/sort
   mapsQuery?: string; // map-pin only when a real destination
   order?: number; // position in the unified day sequence (1-based)

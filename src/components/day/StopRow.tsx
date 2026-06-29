@@ -25,7 +25,6 @@ interface StopRowProps {
  *
  * Every interactive element has min-height 44px via `.tap`.
  * Map-pin is its own full tap target only when mapsQuery is present.
- * Conf input is capped at 14ch (enforced in BookingChip).
  */
 export default function StopRow({
   anchor,
@@ -213,7 +212,6 @@ export default function StopRow({
               <BookingChip
                 state={anchor.booking}
                 link={anchor.bookingLink}
-                confirmationKey={anchor.confirmationKey}
                 timeLock={timeLock}
               />
             )}
