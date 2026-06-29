@@ -221,28 +221,63 @@ export default function DayTimeline({ trip, day }: DayTimelineProps) {
   }
 
   // ── TRANSIT ─────────────────────────────────────────────────────────────
-  {
+  if (day.shape === "transit") {
     const anchors = day.anchors;
-    if (anchors.length === 0) return null;
+    const ideas = day.ideas;
+    if (anchors.length === 0 && ideas.length === 0) return null;
 
     return (
       <div>
-        <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
-          {anchors.map((a) => {
-            const isNext = isToday && a === nextAnchorTarget;
-            return (
-              <li
-                key={a.label}
-                ref={isNext ? currentItemRef : undefined}
-                aria-current={isNext ? "true" : undefined}
-                className={isNext ? "scroll-target" : undefined}
-              >
-                <StopRow anchor={a} timeLock={Boolean(a.time)} />
-              </li>
-            );
-          })}
-        </ol>
+        {anchors.length > 0 && (
+          <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
+            {anchors.map((a) => {
+              const isNext = isToday && a === nextAnchorTarget;
+              return (
+                <li
+                  key={a.label}
+                  ref={isNext ? currentItemRef : undefined}
+                  aria-current={isNext ? "true" : undefined}
+                  className={isNext ? "scroll-target" : undefined}
+                >
+                  <StopRow anchor={a} timeLock={Boolean(a.time)} />
+                </li>
+              );
+            })}
+          </ol>
+        )}
+
+        {/* ANYTIME section */}
+        {ideas.length > 0 && (
+          <section style={{ marginTop: 36 }}>
+            <h2
+              className="t-display"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.18em",
+                color: "var(--pencil)",
+                marginBottom: 4,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                borderBottom: "1px solid rgba(26,22,18,0.15)",
+                paddingBottom: 6,
+              }}
+            >
+              <Icon name="map-pin" size={14} />
+              ANYTIME · NEARBY
+            </h2>
+            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {ideas.map((idea) => (
+                <li key={idea.name}>
+                  <StopRow idea={idea} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     );
   }
+
+  return null;
 }
