@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import type { Trip } from "@/lib/types";
+import SectionHead from "@/components/trip/SectionHead";
 
 interface BudgetSectionProps {
   trip: Trip;
@@ -61,15 +62,7 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
           }}
         >
           <div>
-            <div
-              className="t-mono"
-              style={{ fontSize: 11, letterSpacing: "0.32em", color: "var(--wine)" }}
-            >
-              § 03 · FINANCIAL DISCLOSURE
-            </div>
-            <h2 className="t-display" style={{ fontSize: 64, margin: "4px 0 0" }}>
-              THE MONEY, IN BARS.
-            </h2>
+            <SectionHead eyebrow="BUDGET" title="Budget" />
           </div>
           <div style={{ textAlign: "right" }}>
             <div

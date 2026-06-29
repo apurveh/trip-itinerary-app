@@ -1,5 +1,6 @@
 import type { Trip } from "@/lib/types";
 import Tape from "@/components/primitives/Tape";
+import SectionHead from "@/components/trip/SectionHead";
 
 interface PracticalInfoProps {
   trip: Trip;
@@ -15,19 +16,7 @@ export default function PracticalInfo({ trip }: PracticalInfoProps) {
   return (
     <section style={{ padding: "40px 0" }}>
       <div className="case-container">
-        <div
-          className="t-mono"
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.32em",
-            color: "var(--wine)",
-          }}
-        >
-          § 04 · PRACTICAL INTEL
-        </div>
-        <h2 className="t-display" style={{ fontSize: 64, margin: "4px 0 24px" }}>
-          FIELD MANUAL ADDENDA.
-        </h2>
+        <SectionHead eyebrow="PRACTICAL" title="Practical info" />
 
         <div
           style={{

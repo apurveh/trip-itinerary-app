@@ -5,7 +5,6 @@ import TripHero from "@/components/trip/TripHero";
 import DayIndex from "@/components/trip/DayIndex";
 import BudgetSection from "@/components/trip/BudgetSection";
 import PracticalInfo from "@/components/trip/PracticalInfo";
-import MemoriesSection from "@/components/trip/MemoriesSection";
 import BackToHub from "@/components/trip/BackToHub";
 import StatusBanner from "@/components/trip/StatusBanner";
 import Safehouse from "@/components/trip/Safehouse";
@@ -39,7 +38,7 @@ export default function Trip() {
 
   return (
     <main>
-      <TripHero trip={trip} onBack={onBack} />
+      <TripHero trip={trip} />
       <StatusBanner trip={trip} />
       <DayIndex trip={trip} />
       <section style={{ padding: "40px 0" }}>
@@ -51,7 +50,6 @@ export default function Trip() {
       </section>
       <BudgetSection trip={trip} />
       <PracticalInfo trip={trip} />
-      <MemoriesSection />
       <BackToHub onBack={onBack} />
     </main>
   );

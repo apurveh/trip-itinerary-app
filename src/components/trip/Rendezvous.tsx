@@ -1,8 +1,9 @@
 import type { Trip } from "@/lib/types";
+import SectionHead from "@/components/trip/SectionHead";
 export default function Rendezvous({ trip }: { trip: Trip }) {
   return (
     <div style={{ border: "2px solid var(--ink)", background: "var(--paper)", padding: 18, boxShadow: "5px 5px 0 var(--ink)" }}>
-      <div className="t-mono" style={{ fontSize: 11, letterSpacing: "0.3em", color: "var(--wine)" }}>RENDEZVOUS · COFFEE & FOOD</div>
+      <SectionHead eyebrow="RENDEZVOUS" title="Where to meet" />
       <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0", display: "grid", gap: 10 }}>
         {trip.food.map((c) => (
           <li key={c.name}>
