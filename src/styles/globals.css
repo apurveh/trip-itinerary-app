@@ -366,10 +366,17 @@ input, select, textarea {
   .dossier-folder { padding: 28px 22px 24px !important; }
 }
 
-@media (max-width: 720px) {
-  /* Feature trip card: stack image above text */
-  .hover-lift[role="button"] {
+/* Feature trip card — stacks single-column on narrow screens */
+@media (max-width: 479px) {
+  .feature-trip-card {
     grid-template-columns: 1fr !important;
+    min-height: unset !important;
+  }
+  .feature-trip-card__text {
+    padding: 36px 20px 24px 20px !important;
+  }
+  .feature-trip-card__image {
+    min-height: 240px !important;
   }
 }
 

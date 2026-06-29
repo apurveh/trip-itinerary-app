@@ -24,7 +24,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
           onOpen();
         }
       }}
-      className="hover-lift"
+      className="hover-lift feature-trip-card"
       style={{
         cursor: "pointer",
         position: "relative",
@@ -61,7 +61,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
       <PunchHoles count={3} side="left" />
       <Tape style={{ top: -12, right: 80, transform: "rotate(8deg)", width: 110 }} />
 
-      <div style={{ padding: "44px 38px 32px 56px", position: "relative" }}>
+      <div className="feature-trip-card__text" style={{ padding: "44px 38px 32px 56px", position: "relative" }}>
         <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
           <span
             className="t-mono"
@@ -174,7 +174,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
         </div>
       </div>
 
-      <div style={{ position: "relative", background: "var(--ink)", overflow: "hidden" }}>
+      <div className="feature-trip-card__image" style={{ position: "relative", background: "var(--ink)", overflow: "hidden" }}>
         <img
           src={trip.heroImage}
           alt=""
