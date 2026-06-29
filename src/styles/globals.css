@@ -305,7 +305,39 @@ input, select, textarea {
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 .btn.ghost:hover { box-shadow: 5px 5px 0 var(--ink); }
 
-/* Day-card "OPEN" pill — visual click affordance inside the card <Link>.
+/* ── Day index: clickable day cards (dossier → day detail) ──
+   Mobile-first. The card is a 3-column grid whose fixed columns must fit
+   the narrowest phones, so on small screens the number shrinks, padding
+   tightens, and the supplementary anchor label is hidden. The middle
+   column uses minmax(0,1fr) so it can shrink below its content width. */
+.day-index { display: grid; gap: 14px; margin-top: 28px; margin-bottom: 28px; }
+
+.day-card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 16px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.day-card__num { font-size: 34px; line-height: 1; color: var(--wine); }
+.day-card__body { min-width: 0; }
+.day-card__meta {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  margin-top: 6px;
+  color: var(--ink-soft);
+}
+/* Keep the rotated sticker inside its column on narrow screens. */
+.day-card .sticker { font-size: 13px; white-space: normal; }
+.day-card__aside { display: grid; gap: 10px; justify-items: end; text-align: right; }
+.day-card__anchor { display: none; }
+
+/* "OPEN" pill — visual click affordance inside the card <Link>.
    Not interactive itself; the whole card is the link target. */
 .day-card__open {
   display: inline-flex;
@@ -323,6 +355,25 @@ input, select, textarea {
   transition: box-shadow 200ms ease;
 }
 .day-card:hover .day-card__open { box-shadow: 4px 4px 0 var(--wine); }
+
+/* Roomier layout once there's space for it. */
+@media (min-width: 520px) {
+  .day-card {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 18px 22px;
+  }
+  .day-card__num { font-size: 44px; }
+  .day-card__meta { letter-spacing: 0.18em; }
+  .day-card .sticker { font-size: 16px; white-space: nowrap; }
+  .day-card__anchor {
+    display: block;
+    max-width: 220px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .day-card__open { transition: none; }
 }
