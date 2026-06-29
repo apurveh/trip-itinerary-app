@@ -6,9 +6,12 @@ import { IconSprite } from "./components/primitives/Icon";
 export default function App() {
   return (
     <div className="min-h-screen">
+      <a href="#main" className="skip-link">Skip to content</a>
       <IconSprite />
       <CaseHeader />
-      <Outlet />
+      <div id="main">
+        <Outlet />
+      </div>
       <ScrollToTop />
     </div>
   );

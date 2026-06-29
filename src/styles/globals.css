@@ -78,6 +78,30 @@ body {
 
 #root { position: relative; z-index: 2; }
 
+/* Skip-to-content link — visually hidden until focused */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--wine);
+  color: var(--cream);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid var(--cream);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  left: 16px;
+  top: 16px;
+  outline: 3px solid var(--cream);
+  outline-offset: 2px;
+}
+
 /* Accessibility: focus ring */
 :focus-visible {
   outline: 3px solid var(--wine);
