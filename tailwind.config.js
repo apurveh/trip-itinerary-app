@@ -39,11 +39,11 @@ export default {
         },
       },
       fontFamily: {
-        display: ["Anton", "Bebas Neue", "Special Elite", "sans-serif"],
-        stencil: ["Bebas Neue", "Special Elite", "sans-serif"],
+        display: ["Anton", "system-ui", "sans-serif"],
+        stencil: ["Anton", "system-ui", "sans-serif"],
         mono: ["IBM Plex Mono", "Courier New", "monospace"],
-        typewriter: ["Special Elite", "Courier Prime", "monospace"],
-        serif: ["Playfair Display", "EB Garamond", "serif"],
+        typewriter: ["IBM Plex Mono", "Courier New", "monospace"],
+        serif: ["Playfair Display", "serif"],
       },
       boxShadow: {
         case: "6px 6px 0 var(--ink)",

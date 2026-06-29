@@ -2,11 +2,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { loadTrip } from "@/lib/loadTrip";
 import TripHero from "@/components/trip/TripHero";
-import DaysScroller from "@/components/trip/DaysScroller";
+import DayIndex from "@/components/trip/DayIndex";
 import BudgetSection from "@/components/trip/BudgetSection";
 import PracticalInfo from "@/components/trip/PracticalInfo";
-import MemoriesSection from "@/components/trip/MemoriesSection";
 import BackToHub from "@/components/trip/BackToHub";
+import StatusBanner from "@/components/trip/StatusBanner";
+import Safehouse from "@/components/trip/Safehouse";
+import Rendezvous from "@/components/trip/Rendezvous";
+import PackingList from "@/components/trip/PackingList";
 
 export default function Trip() {
   const { slug = "turin" } = useParams<{ slug: string }>();
@@ -35,11 +38,18 @@ export default function Trip() {
 
   return (
     <main>
-      <TripHero trip={trip} onBack={onBack} />
-      <DaysScroller trip={trip} />
+      <TripHero trip={trip} />
+      <StatusBanner trip={trip} />
+      <DayIndex trip={trip} />
+      <section style={{ padding: "40px 0" }}>
+        <div className="case-container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+          <Safehouse trip={trip} />
+          <Rendezvous trip={trip} />
+          <PackingList items={trip.packing} />
+        </div>
+      </section>
       <BudgetSection trip={trip} />
       <PracticalInfo trip={trip} />
-      <MemoriesSection />
       <BackToHub onBack={onBack} />
     </main>
   );

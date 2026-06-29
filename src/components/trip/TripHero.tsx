@@ -1,233 +1,184 @@
 import type { Trip } from "@/lib/types";
 import AvatarChip from "@/components/brand/AvatarChip";
 import Stamp from "@/components/primitives/Stamp";
-import Sticker from "@/components/primitives/Sticker";
-import Tape from "@/components/primitives/Tape";
-import PunchHoles from "@/components/primitives/PunchHoles";
+import Image from "@/components/primitives/Image";
 
 interface TripHeroProps {
   trip: Trip;
-  onBack: () => void;
 }
 
-export default function TripHero({ trip, onBack }: TripHeroProps) {
+const HERO_TAGS = ["Piedmont", "Wine Country", "First Trip Together"];
+
+/**
+ * TripHero — mobile-first single-column hero. No absolute-positioned stamps,
+ * tape, or rotated stickers layered over content. The hero image is never sliced.
+ * Global CaseHeader already provides the ← FILING CABINET back affordance.
+ */
+export default function TripHero({ trip }: TripHeroProps) {
+  // Strip "couple (fixed costs)" suffix — keep only the amount + currency
+  const budgetDisplay = trip.budgetTotalDkk
+    .replace("≈", "~")
+    .replace(/ couple.*$/, "");
+  const baseShort = trip.base.address.split(",")[0];
+  const agents = trip.travelers.map((tr) => tr.initials).join(" + ");
+
+  const metaItems: [string, string][] = [
+    ["DURATION", `${trip.duration} DAYS`],
+    ["BASE", baseShort],
+    ["AGENTS", agents],
+    ["BUDGET", budgetDisplay],
+    ["TEMP", "30–35°C"],
+  ];
+
   return (
-    <section style={{ position: "relative", padding: "30px 0 40px", overflow: "hidden" }}>
+    <section style={{ padding: "28px 0 36px" }}>
       <div className="case-container">
+        {/* Eyebrow */}
+        <p
+          className="t-mono"
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.32em",
+            color: "var(--wine)",
+            margin: "0 0 10px",
+            textTransform: "uppercase",
+          }}
+        >
+          FIELD MANUAL · {trip.dates.toUpperCase()}
+        </p>
+
+        {/* Title — fluid clamp, ONE shadow, derived from codename */}
+        <h1
+          className="t-display"
+          style={{
+            fontSize: "clamp(2.4rem, 9vw, 5.5rem)",
+            lineHeight: 0.92,
+            margin: "0 0 14px",
+            color: "var(--ink)",
+            textShadow: "3px 3px 0 var(--amber)",
+          }}
+        >
+          {trip.codename.toUpperCase()}
+        </h1>
+
+        {/* Tagline — italic serif quote voice */}
+        <p
+          className="t-serif"
+          style={{
+            fontStyle: "italic",
+            fontSize: "clamp(1rem, 2.5vw, 1.35rem)",
+            color: "var(--ink-soft)",
+            margin: "0 0 20px",
+          }}
+        >
+          &ldquo;{trip.tagline}&rdquo;
+        </p>
+
+        {/* Agents */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
             gap: 12,
-            marginBottom: 20,
+            flexWrap: "wrap",
+            marginBottom: 22,
           }}
         >
-          <button className="btn ghost" onClick={onBack} style={{ fontSize: 12 }}>
-            ← FILING CABINET
-          </button>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          {trip.travelers.map((t) => (
+            <AvatarChip key={t.name} traveler={t} big />
+          ))}
+        </div>
+
+        {/* Flat tags — NOT rotated, NOT overlapping */}
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            flexWrap: "wrap",
+            marginBottom: 28,
+          }}
+        >
+          {HERO_TAGS.map((tag) => (
             <span
-              className="t-mono"
-              style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--wine)" }}
-            >
-              {trip.classification}
-            </span>
-            <span
+              key={tag}
               className="t-mono"
               style={{
                 fontSize: 11,
-                letterSpacing: "0.22em",
-                background: "var(--amber)",
-                color: "var(--ink)",
-                padding: "3px 10px",
+                letterSpacing: "0.16em",
+                border: "1.5px solid var(--ink)",
+                padding: "5px 11px",
+                background: "var(--cream)",
+                textTransform: "uppercase",
+                display: "inline-block",
               }}
             >
-              STATUS · {trip.status.toUpperCase()}
+              {tag}
             </span>
-          </div>
+          ))}
         </div>
 
+        {/* Hero image — full width, never clipped by a stamp */}
+        <div style={{ marginBottom: 16 }}>
+          <Image
+            src={trip.heroImage}
+            alt={`${trip.destination} — ${trip.codename}`}
+            width={1200}
+            height={1800}
+            priority
+          />
+        </div>
+
+        {/* ONE flat stamp accent — below the photo, not on it */}
         <div
-          className="dossier-folder"
           style={{
-            position: "relative",
-            background: "var(--manila-light)",
-            border: "2px solid var(--ink)",
-            borderTop: "36px solid var(--manila-edge)",
-            boxShadow: "10px 10px 0 var(--ink), 14px 14px 0 var(--wine)",
-            padding: "44px 44px 36px",
-            minHeight: 460,
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: 24,
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              top: -64,
-              left: 32,
-              width: 280,
-              height: 40,
-              background: "var(--manila-edge)",
-              border: "2px solid var(--ink)",
-              borderBottom: "none",
-              borderRadius: "8px 22px 0 0",
-              padding: "10px 18px",
-            }}
-          >
-            <div className="t-stencil" style={{ fontSize: 14, letterSpacing: "0.2em" }}>
-              {trip.caseNumber} · OPERAZIONE TORINO
-            </div>
-          </div>
+          <Stamp rotate={0}>{trip.classification}</Stamp>
+        </div>
 
-          <PunchHoles count={4} side="left" />
-          <Tape style={{ top: -14, right: 100, width: 110, transform: "rotate(8deg)" }} />
-          <Tape style={{ top: -14, right: 240, width: 90, transform: "rotate(-6deg)" }} />
-
-          <div
-            className="hero-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.05fr 0.95fr",
-              gap: 38,
-              alignItems: "center",
-            }}
-          >
-            <div>
+        {/* Meta bar — wrapping auto-fit grid, never a fixed 5-col layout */}
+        <div
+          style={{
+            borderTop: "2px solid var(--ink)",
+            paddingTop: 16,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+            gap: "10px 0",
+          }}
+        >
+          {metaItems.map(([k, v]) => (
+            <div
+              key={k}
+              style={{ padding: "0 12px" }}
+            >
               <div
                 className="t-mono"
                 style={{
-                  fontSize: 11,
-                  letterSpacing: "0.32em",
-                  color: "var(--wine)",
+                  fontSize: 10,
+                  letterSpacing: "0.2em",
+                  color: "var(--pencil)",
                 }}
               >
-                FIELD MANUAL · {trip.dates.toUpperCase()}
+                {k}
               </div>
-              <h1
-                className="t-display"
-                style={{
-                  fontSize: "clamp(64px, 11vw, 152px)",
-                  margin: "8px 0 4px",
-                  lineHeight: 0.88,
-                  color: "var(--ink)",
-                  textShadow: "4px 4px 0 var(--amber)",
-                }}
-              >
-                OPERAZIONE
-                <br />
-                <span style={{ color: "var(--wine)" }}>TORINO</span>
-              </h1>
-              <p
-                className="t-serif"
-                style={{
-                  fontStyle: "italic",
-                  fontSize: 22,
-                  color: "var(--ink-soft)",
-                  maxWidth: 520,
-                  marginTop: 14,
-                }}
-              >
-                "{trip.tagline}"
-              </p>
-
-              <div style={{ display: "flex", gap: 12, marginTop: 22, flexWrap: "wrap" }}>
-                {trip.travelers.map((t) => (
-                  <AvatarChip key={t.name} traveler={t} big />
-                ))}
-              </div>
-
-              <div style={{ marginTop: 22, display: "flex", gap: 16, flexWrap: "wrap" }}>
-                <Sticker tone="amber" rotate={-4}>
-                  ★ PIEDMONT
-                </Sticker>
-                <Sticker tone="wine" rotate={3}>
-                  WINE COUNTRY
-                </Sticker>
-                <Sticker tone="teal" rotate={-2}>
-                  FIRST TRIP TOGETHER
-                </Sticker>
+              <div className="t-stencil" style={{ fontSize: 16, marginTop: 2 }}>
+                {v}
               </div>
             </div>
-
-            <div style={{ position: "relative" }}>
-              <div
-                className="photo"
-                style={{ transform: "rotate(2deg)", maxWidth: 460, marginLeft: "auto" }}
-              >
-                <Tape
-                  style={{
-                    top: -10,
-                    left: "50%",
-                    marginLeft: -45,
-                    transform: "rotate(-3deg)",
-                  }}
-                />
-                <div style={{ aspectRatio: "4/5", overflow: "hidden" }}>
-                  <img src={trip.heroImage} alt="" />
-                </div>
-                <div className="caption">PIAZZA SAN CARLO · GOLDEN HOUR · CONFIDENTIAL</div>
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  top: -16,
-                  right: -10,
-                  transform: "rotate(8deg)",
-                }}
-              >
-                <Stamp size="large" rotate={8}>
-                  {trip.classification}
-                </Stamp>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="meta-bar"
-            style={{
-              marginTop: 32,
-              borderTop: "2px solid var(--ink)",
-              paddingTop: 18,
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gap: 0,
-            }}
-          >
-            {(
-              [
-                ["DURATION", "8 DAYS"],
-                ["BASE", "SUPERGA, TORINO"],
-                ["AGENTS", "AP + CL"],
-                ["BUDGET", "~6,600 DKK"],
-                ["TEMP", "28–32°C HUMID"],
-              ] as const
-            ).map(([k, v], i) => (
-              <div
-                key={k}
-                style={{
-                  borderRight: i < 4 ? "1.5px dotted var(--pencil)" : "none",
-                  padding: "0 14px",
-                }}
-              >
-                <div
-                  className="t-mono"
-                  style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--pencil)" }}
-                >
-                  {k}
-                </div>
-                <div className="t-stencil" style={{ fontSize: 18, marginTop: 2 }}>
-                  {v}
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
 
+        {/* Exchange note */}
         <div style={{ marginTop: 14, textAlign: "right" }}>
           <span
             className="t-mono"
-            style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--pencil)" }}
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              color: "var(--pencil)",
+            }}
           >
             {trip.exchangeNote}
           </span>

@@ -4,6 +4,7 @@ import PunchHoles from "@/components/primitives/PunchHoles";
 import Tape from "@/components/primitives/Tape";
 import Stamp from "@/components/primitives/Stamp";
 import Sticker from "@/components/primitives/Sticker";
+import Image from "@/components/primitives/Image";
 
 interface FeatureTripCardProps {
   trip: Trip;
@@ -24,7 +25,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
           onOpen();
         }
       }}
-      className="hover-lift"
+      className="hover-lift feature-trip-card"
       style={{
         cursor: "pointer",
         position: "relative",
@@ -61,7 +62,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
       <PunchHoles count={3} side="left" />
       <Tape style={{ top: -12, right: 80, transform: "rotate(8deg)", width: 110 }} />
 
-      <div style={{ padding: "44px 38px 32px 56px", position: "relative" }}>
+      <div className="feature-trip-card__text" style={{ padding: "44px 38px 32px 56px", position: "relative" }}>
         <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
           <span
             className="t-mono"
@@ -126,11 +127,11 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
           {(
             [
               ["DURATION", `${trip.duration} days · ${trip.duration - 1} nights`],
-              ["BASE", trip.base],
-              ["AGENTS", "Apurva 🕵️ + Clara 🍷"],
+              ["BASE", trip.base.address],
+              ["AGENTS", "Apurva + Clara"],
               ["DAYS PLOTTED", `${trip.days.length} / ${trip.duration}`],
-              ["BUDGET", "~6,600 DKK couple"],
-              ["WEATHER", "28–32°C · humid"],
+              ["BUDGET", "~1,900 DKK couple"],
+              ["WEATHER", "30–35°C"],
             ] as const
           ).map(([k, v]) => (
             <li
@@ -174,12 +175,14 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
         </div>
       </div>
 
-      <div style={{ position: "relative", background: "var(--ink)", overflow: "hidden" }}>
-        <img
+      <div className="feature-trip-card__image" style={{ position: "relative", background: "var(--ink)", overflow: "hidden" }}>
+        <Image
           src={trip.heroImage}
           alt=""
+          width={1200}
+          height={800}
+          priority
           style={{
-            width: "100%",
             height: "100%",
             objectFit: "cover",
             filter: "saturate(0.92) contrast(1.05)",

@@ -2,38 +2,95 @@ export type Tone = "amber" | "wine" | "teal" | "pink" | "cream" | "ink";
 
 export interface Traveler {
   name: string;
-  emoji: string;
+  emoji?: string;
   role: string;
-  color: "amber" | "pink";
+  color?: string;
   initials: string;
 }
 
-export interface Pill {
-  label: string;
-  amt: string;
-  tone: Tone;
+export interface Photo {
+  src: string;
+  alt: string;
+  credit?: string;
+}
+
+export type AnchorType =
+  | "ticket" | "market" | "transit" | "shuttle" | "flight"
+  | "viewpoint" | "food" | "hydration";
+
+// Idea kind so side-stops pick an icon deterministically (no prose-guessing)
+export type IdeaKind = AnchorType;
+
+export type DayShape = "anchored" | "route" | "transit";
+export type BandKey = "morning" | "midday" | "afternoon" | "evening";
+
+// Stencil icon names (Task 8 sprite)
+export type IconName =
+  | "ticket" | "market" | "transit" | "shuttle" | "flight"
+  | "viewpoint" | "food" | "hydration" | "sun-arc" | "map-pin";
+
+export type BookingState = "booked" | "toBook" | "na";
+
+export interface Anchor {
+  label: string; // "Museo Egizio"
+  time?: string; // "10:00" | "07:00–14:00" | undefined
+  type: AnchorType;
+  detail: string; // one line of what/where/how
+  booking: BookingState;
+  bookingLink?: string; // official URL when type === "ticket"/"shuttle"
+  confirmationKey?: string; // localStorage key for a confirmation-number slot (booked tickets)
+  startMin?: number; // parsed minutes-since-midnight, for banding/sort
+  mapsQuery?: string; // map-pin only when a real destination
+  order?: number; // position in the unified day sequence (1-based)
+  section?: string; // section label printed above the first item of each new section
+  timeLock?: boolean; // true for hard time-lock anchors (show timeLock in BookingChip)
+  duration?: string; // suggested visit duration, e.g. "~2–3h"
+}
+
+export interface Idea {
+  name: string;
+  why: string; // one-line why-it's-worth-it
+  area?: string; // neighbourhood / nearest landmark
+  cost?: string; // "15 € pp" — only when real
+  tip?: string;
+  photo?: Photo;
+  mapsQuery: string; // fed to mapsLink()
+  kind?: IdeaKind;
+  order?: number; // position in the unified day sequence (1-based)
+  section?: string; // section label printed above the first item of each new section
+  optional?: boolean; // true for genuine maybes (de-emphasised in the UI)
+  duration?: string; // suggested visit duration, e.g. "~2–3h"
 }
 
 export interface Day {
   n: number;
-  date: string;
+  weekday: string; // "Wed"
+  date: string; // "1 Jul"
   title: string;
-  label: string;
-  lead: "Apurva" | "Clara" | "both";
-  vibe: string;
-  brief: string;
-  moves: string[];
-  pills: Pill[];
-  total: string;
-  intel: string;
-  image: string;
+  label: string; // funky sticker label
   sticker: Tone;
+  vibe: string;
+  lead: "Apurva" | "Clara" | "both";
+  summary: string;
+  transitFromBase: string; // "Dante → Porta Nuova (Fermi), ~5 min"
+  anchors: Anchor[];
+  ideas: Idea[];
+  photos: Photo[];
+  intel: string[];
+  heroImage: string;
+  shape: DayShape;
+}
+
+export interface Cafe {
+  name: string;
+  hours: string;
+  note?: string;
 }
 
 export interface BudgetEntry {
   cat: string;
   amt: number;
-}
+} // DKK, concrete only
 
 export interface Tips {
   transit: string[];
@@ -56,18 +113,23 @@ export interface Trip {
   title: string;
   destination: string;
   dates: string;
+  startISO: string;
+  endISO: string;
   duration: number;
   status: TripStatus;
   tagline: string;
-  base: string;
   classification: string;
   exchangeNote: string;
   heroImage: string;
+  base: { address: string; metro: string; supermarkets: string[] };
+  flights: { out: string; in: string }; // human strings
   travelers: Traveler[];
   days: Day[];
-  budget: BudgetEntry[];
-  budgetTotal: { lo: number; hi: number };
+  food: Cafe[];
+  packing: string[];
   tips: Tips;
+  budget: BudgetEntry[];
+  budgetTotalDkk: string; // e.g. "≈ 1,900 DKK couple"
   memories: Memory[];
 }
 
@@ -82,5 +144,5 @@ export interface HubData {
   tagline: string;
   archive: string;
   stats: { n: string; label: string }[];
-  pendingFiles: PendingFile[];
+  pendingFiles?: PendingFile[];
 }

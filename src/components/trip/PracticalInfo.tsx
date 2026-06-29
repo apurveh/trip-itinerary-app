@@ -1,33 +1,21 @@
 import type { Trip } from "@/lib/types";
-import Tape from "@/components/primitives/Tape";
+import SectionHead from "@/components/trip/SectionHead";
 
 interface PracticalInfoProps {
   trip: Trip;
 }
 
 const SECTIONS = [
-  { key: "transit", title: "TRANSIT", icon: "▲", color: "var(--teal)" },
+  { key: "transit", title: "TRANSIT", icon: "▲", color: "var(--ink)" },
   { key: "food", title: "FOOD", icon: "♦", color: "var(--wine)" },
-  { key: "weather", title: "WEATHER", icon: "☀", color: "var(--amber)" },
+  { key: "weather", title: "WEATHER", icon: "☀", color: "var(--amber-deep)" },
 ] as const;
 
 export default function PracticalInfo({ trip }: PracticalInfoProps) {
   return (
     <section style={{ padding: "40px 0" }}>
       <div className="case-container">
-        <div
-          className="t-mono"
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.32em",
-            color: "var(--wine)",
-          }}
-        >
-          § 04 · PRACTICAL INTEL
-        </div>
-        <h2 className="t-display" style={{ fontSize: 64, margin: "4px 0 24px" }}>
-          FIELD MANUAL ADDENDA.
-        </h2>
+        <SectionHead eyebrow="PRACTICAL" title="Practical info" />
 
         <div
           style={{
@@ -48,13 +36,6 @@ export default function PracticalInfo({ trip }: PracticalInfoProps) {
                 transform: `rotate(${i % 2 === 0 ? -0.6 : 0.6}deg)`,
               }}
             >
-              <Tape
-                style={{
-                  top: -12,
-                  right: 20,
-                  transform: `rotate(${i % 2 === 0 ? 6 : -6}deg)`,
-                }}
-              />
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ fontSize: 22, color: s.color }}>{s.icon}</span>
                 <div className="t-display" style={{ fontSize: 32, color: "var(--ink)" }}>
