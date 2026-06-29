@@ -127,7 +127,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
             [
               ["DURATION", `${trip.duration} days · ${trip.duration - 1} nights`],
               ["BASE", trip.base.address],
-              ["AGENTS", "Apurva 🕵️ + Clara 🍷"],
+              ["AGENTS", "Apurva + Clara"],
               ["DAYS PLOTTED", `${trip.days.length} / ${trip.duration}`],
               ["BUDGET", "~1,900 DKK couple"],
               ["WEATHER", "28–32°C · humid"],
