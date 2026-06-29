@@ -77,7 +77,7 @@ export default function StopRow({
             {stepIndex}
           </span>
         )}
-        <Icon name={iconName} size={18} title={iconName} />
+        <Icon name={iconName} size={18} />
       </div>
 
       {/* ── RIGHT CONTENT ── */}

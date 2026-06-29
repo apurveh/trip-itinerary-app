@@ -4,6 +4,7 @@ import PunchHoles from "@/components/primitives/PunchHoles";
 import Tape from "@/components/primitives/Tape";
 import Stamp from "@/components/primitives/Stamp";
 import Sticker from "@/components/primitives/Sticker";
+import Image from "@/components/primitives/Image";
 
 interface FeatureTripCardProps {
   trip: Trip;
@@ -175,11 +176,13 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
       </div>
 
       <div className="feature-trip-card__image" style={{ position: "relative", background: "var(--ink)", overflow: "hidden" }}>
-        <img
+        <Image
           src={trip.heroImage}
           alt=""
+          width={1200}
+          height={800}
+          priority
           style={{
-            width: "100%",
             height: "100%",
             objectFit: "cover",
             filter: "saturate(0.92) contrast(1.05)",
