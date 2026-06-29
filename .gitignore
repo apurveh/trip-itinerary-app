@@ -48,3 +48,6 @@ lerna-debug.log*
 /.playwright-mcp
 /.superpowers
 /*.png
+
+# raw asset drop-off — canonical copies live in src/assets/trips/turin/headers/
+/assets/trips
