@@ -2,20 +2,25 @@ import type { Trip } from "../types";
 
 import hero from "@/assets/trips/turin/hero.jpg";
 
+// Day header images (user-supplied). Days 5 & 6 keep their existing heroes.
+import day1Header from "@/assets/trips/turin/headers/day-1.webp";
+import day2Header from "@/assets/trips/turin/headers/day-2.avif";
+import day3Header from "@/assets/trips/turin/headers/day-3.jpg";
+import day4Header from "@/assets/trips/turin/headers/day-4.jpg";
+import day7Header from "@/assets/trips/turin/headers/day-7.jpg";
+import day8Header from "@/assets/trips/turin/headers/day-8.jpg";
+
 // Gap photos sourced from Wikimedia Commons (2026-06-28)
-import mautoImg from "@/assets/trips/turin/mauto.jpg";
 import arcoAugustoSusa from "@/assets/trips/turin/arco-augusto-susa.jpg";
 import monteCappuccini from "@/assets/trips/turin/monte-cappuccini.jpg";
 import villaDellRegina from "@/assets/trips/turin/villa-della-regina.jpg";
 import balonFleaMarket from "@/assets/trips/turin/balon-flea-market.jpg";
 
 // Day 1 — Arrival / city centre
-import viaRomaTorino from "@/assets/trips/turin/via-roma-torino.jpg";
 import stradaDeTorino from "@/assets/trips/turin/strada-de-torino.jpg";
 import piazzaSanCarlo3 from "@/assets/trips/turin/piazza-san-carlo-3.jpg";
 
 // Day 2 — Museo Egizio + royal centre
-import egizio1 from "@/assets/trips/turin/egizio-1.jpg";
 import egizio2 from "@/assets/trips/turin/egizio-2.jpg";
 import piazzaCastello1 from "@/assets/trips/turin/piazza-castello-1.jpg";
 import palazzoReale from "@/assets/trips/turin/palazzo-reale.jpg";
@@ -27,7 +32,6 @@ import parcoDelValentino2 from "@/assets/trips/turin/parco-del-valentino-2.jpg";
 import aperitivo from "@/assets/trips/turin/aperitivo.jpg";
 
 // Day 4 — Markets + Mole Cinema Museum
-import cinemaMuseum1 from "@/assets/trips/turin/cinema-museum-1.jpg";
 import portaPalazzo2 from "@/assets/trips/turin/porta-palazzo-2.jpg";
 import portaPalazzoB from "@/assets/trips/turin/porta-palazzo-b.webp";
 import cinemaMuseum2 from "@/assets/trips/turin/cinema-museum-2.jpg";
@@ -41,15 +45,12 @@ import lacsDavcgliana2 from "@/assets/trips/turin/lacs-davcgliana-2.jpg";
 import picnic from "@/assets/trips/turin/picnic.jpg";
 
 // Day 7 — Superga + Sassi rack tram
-import supergaImg from "@/assets/trips/turin/superga.jpg";
 import superga2 from "@/assets/trips/turin/superga-2.jpg";
 import supergaBasilisca from "@/assets/trips/turin/superga-basilisca.jpg";
 import tombOfSavoy from "@/assets/trips/turin/tomb-of-the-house-of-savoy.jpg";
 import sassiStation from "@/assets/trips/turin/sassi-station.jpg";
 
 // Day 8 — Departure
-import panino from "@/assets/trips/turin/panino.jpg";
-
 export const TURIN: Trip = {
   id: "001",
   slug: "turin",
@@ -161,7 +162,7 @@ export const TURIN: Trip = {
       intel: [
         "Don't overbook day one. Drop the bags at Porta Susa first, then wander until the 15:00 apartment check-in — there's no need to plan anything before then.",
       ],
-      heroImage: viaRomaTorino,
+      heroImage: day1Header,
     },
     {
       n: 2,
@@ -251,7 +252,7 @@ export const TURIN: Trip = {
       intel: [
         "Aperitivo was invented in Turin — order one drink in the early evening and the free snacks that come with it are basically dinner.",
       ],
-      heroImage: egizio1,
+      heroImage: day2Header,
     },
     {
       n: 3,
@@ -331,7 +332,7 @@ export const TURIN: Trip = {
       intel: [
         "Lingotto's old Fiat factory has an iconic car test-track on its roof — look up a photo before you go so you recognise it.",
       ],
-      heroImage: mautoImg,
+      heroImage: day3Header,
     },
     {
       n: 4,
@@ -414,7 +415,7 @@ export const TURIN: Trip = {
       intel: [
         "Carry your ID — you need it for the Mole. The markets are best before 09:00, and remember the Balôn flea market only runs on Saturday.",
       ],
-      heroImage: cinemaMuseum1,
+      heroImage: day4Header,
     },
     {
       n: 5,
@@ -583,6 +584,15 @@ export const TURIN: Trip = {
       ],
       ideas: [
         {
+          name: "Make lunch from home",
+          why: "Pack a lunch before you set off — Susa is a small mountain town, and a picnic is the easy, cheap way to eat well between the ruins.",
+          area: "Corso Dante",
+          mapsQuery: "",
+          kind: "food",
+          optional: true,
+          order: 0,
+        },
+        {
           name: "Arch of Augustus (Arco di Augusto)",
           why: "A well-preserved Roman triumphal arch from around 9–8 BC, still standing in the old town of Susa.",
           area: "Susa",
@@ -617,6 +627,7 @@ export const TURIN: Trip = {
           area: "Susa",
           mapsQuery: "ristorante centro Susa",
           kind: "food",
+          optional: true,
           order: 7,
         },
       ],
@@ -715,7 +726,7 @@ export const TURIN: Trip = {
       intel: [
         "It's a big walking day, so pace yourself. The panorama from Superga is the keeper photo of the trip.",
       ],
-      heroImage: supergaImg,
+      heroImage: day7Header,
     },
     {
       n: 8,
@@ -781,7 +792,7 @@ export const TURIN: Trip = {
       intel: [
         "Pack the wine and oils in your CHECKED bag, not your carry-on. Leave early — the 06:13 train is the one you must make.",
       ],
-      heroImage: panino,
+      heroImage: day8Header,
     },
   ],
   food: [
