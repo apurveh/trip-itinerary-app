@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import type { Trip } from "@/lib/types";
 import SectionHead from "@/components/trip/SectionHead";
 
@@ -11,7 +11,7 @@ export default function BudgetSection({ trip }: BudgetSectionProps) {
   const max = Math.max(...trip.budget.map((b) => b.amt));
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = usePrefersReducedMotion();
 
   useEffect(() => {
     const el = ref.current;
