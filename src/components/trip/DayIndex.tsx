@@ -4,12 +4,12 @@ import Sticker from "@/components/primitives/Sticker";
 
 export default function DayIndex({ trip }: { trip: Trip }) {
   return (
-    <div style={{ display: "grid", gap: 14 }}>
+    <div className="case-container" style={{ display: "grid", gap: 14, marginTop: 28, marginBottom: 28 }}>
       {trip.days.map((d) => (
         <Link
           key={d.n}
           to={`/trips/${trip.slug}/day/${d.n}`}
-          className="hover-lift"
+          className="hover-lift day-card"
           style={{
             display: "grid",
             gridTemplateColumns: "64px 1fr auto",
@@ -18,7 +18,7 @@ export default function DayIndex({ trip }: { trip: Trip }) {
             border: "2px solid var(--ink)",
             background: "var(--paper)",
             boxShadow: "5px 5px 0 var(--ink)",
-            padding: "14px 18px",
+            padding: "18px 22px",
             textDecoration: "none",
             color: "var(--ink)",
           }}
@@ -41,10 +41,24 @@ export default function DayIndex({ trip }: { trip: Trip }) {
             </div>
           </div>
           <div
-            className="t-typewriter"
-            style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "right", maxWidth: 220 }}
+            style={{
+              display: "grid",
+              gap: 10,
+              justifyItems: "end",
+              textAlign: "right",
+            }}
           >
-            {d.anchors[0]?.label ?? "Free roam"} →
+            <div
+              className="t-typewriter"
+              style={{ fontSize: 12, color: "var(--ink-soft)", maxWidth: 220 }}
+            >
+              {d.anchors[0]?.label ?? "Free roam"}
+            </div>
+            {/* Explicit clickability affordance. The whole card is the <Link>,
+                so this is a visual pill (not a nested <button>). */}
+            <span className="day-card__open" aria-hidden="true">
+              OPEN →
+            </span>
           </div>
         </Link>
       ))}

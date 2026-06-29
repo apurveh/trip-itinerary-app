@@ -22,7 +22,7 @@ export default function Trip() {
 
   if (!trip) {
     return (
-      <main className="case-container" style={{ padding: "80px 0" }}>
+      <main className="case-container" style={{ paddingTop: 80, paddingBottom: 80 }}>
         <h1 className="t-display" style={{ fontSize: 64 }}>
           CASE FILE NOT FOUND
         </h1>

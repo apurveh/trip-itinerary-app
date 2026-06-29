@@ -19,7 +19,7 @@ export default function Day() {
 
   if (!trip || !day) {
     return (
-      <main className="case-container" style={{ padding: "80px 0" }}>
+      <main className="case-container" style={{ paddingTop: 80, paddingBottom: 80 }}>
         <h1 className="t-display" style={{ fontSize: 56 }}>
           DAY NOT IN FILE
         </h1>
@@ -31,7 +31,7 @@ export default function Day() {
   }
 
   return (
-    <main className="case-container" style={{ padding: "32px 0 80px" }}>
+    <main className="case-container" style={{ paddingTop: 32, paddingBottom: 80 }}>
       {/* ── Back link ── */}
       <Link
         to={`/trips/${slug}`}

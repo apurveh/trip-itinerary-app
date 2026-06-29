@@ -305,6 +305,28 @@ input, select, textarea {
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 .btn.ghost:hover { box-shadow: 5px 5px 0 var(--ink); }
 
+/* Day-card "OPEN" pill — visual click affordance inside the card <Link>.
+   Not interactive itself; the whole card is the link target. */
+.day-card__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--ink);
+  color: var(--manila-light);
+  font-family: 'Anton', system-ui, sans-serif;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  white-space: nowrap;
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--wine);
+  transition: box-shadow 200ms ease;
+}
+.day-card:hover .day-card__open { box-shadow: 4px 4px 0 var(--wine); }
+@media (prefers-reduced-motion: reduce) {
+  .day-card__open { transition: none; }
+}
+
 /* Avatar chip */
 .avatar-chip {
   display: inline-flex;
