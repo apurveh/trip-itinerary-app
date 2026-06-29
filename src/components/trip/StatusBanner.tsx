@@ -6,7 +6,12 @@ export default function StatusBanner({ trip }: { trip: Trip }) {
   const nowISO = new Date().toISOString();
   const { status, dayNumber, daysUntil } = tripStatusAt(nowISO, trip.startISO, trip.endISO);
   const today = dayNumber ? trip.days.find((d) => d.n === dayNumber) : undefined;
-  const nowHHMM = nowISO.slice(11, 16);
+  const nowHHMM = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Rome",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date());
   const next = today ? nextAnchor(today, nowHHMM) : null;
 
   let line = "";

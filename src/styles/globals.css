@@ -167,7 +167,7 @@ input, select, textarea {
   display: inline-block;
   border: 3px double currentColor;
   padding: 6px 14px 5px;
-  color: var(--classified);
+  color: var(--wine);
   font-family: 'Anton', system-ui, sans-serif;
   letter-spacing: 0.18em;
   font-size: 18px;
@@ -232,7 +232,7 @@ input, select, textarea {
 
 /* INTEL callout */
 .intel {
-  border-left: 6px solid var(--classified);
+  border-left: 6px solid var(--wine);
   background: linear-gradient(90deg, #fff7c0 0%, #faecaa 100%);
   padding: 12px 16px;
   font-family: 'IBM Plex Mono', 'Courier New', monospace;
@@ -246,7 +246,7 @@ input, select, textarea {
   font-family: 'Anton', system-ui, sans-serif;
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: var(--classified);
+  color: var(--wine);
   margin-bottom: 4px;
 }
 

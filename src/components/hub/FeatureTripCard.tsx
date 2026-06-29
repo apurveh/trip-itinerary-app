@@ -131,7 +131,7 @@ export default function FeatureTripCard({ trip }: FeatureTripCardProps) {
               ["AGENTS", "Apurva + Clara"],
               ["DAYS PLOTTED", `${trip.days.length} / ${trip.duration}`],
               ["BUDGET", "~1,900 DKK couple"],
-              ["WEATHER", "28–32°C · humid"],
+              ["WEATHER", "30–35°C"],
             ] as const
           ).map(([k, v]) => (
             <li

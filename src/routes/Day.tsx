@@ -109,8 +109,7 @@ export default function Day() {
 
       {/* Summary */}
       <p
-        className="t-serif"
-        style={{ fontStyle: "italic", maxWidth: 640, marginTop: 16, marginBottom: 0 }}
+        style={{ fontFamily: "'EB Garamond', Georgia, serif", fontSize: 17, lineHeight: 1.6, maxWidth: 640, marginTop: 16, marginBottom: 0, color: "var(--ink)" }}
       >
         {day.summary}
       </p>

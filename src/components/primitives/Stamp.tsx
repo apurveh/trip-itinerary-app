@@ -11,7 +11,7 @@ interface StampProps {
 
 export default function Stamp({
   children,
-  color = "var(--classified)",
+  color = "var(--wine)",
   rotate = -6,
   size = "normal",
   className = "",

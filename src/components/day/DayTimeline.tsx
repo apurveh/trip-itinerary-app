@@ -20,7 +20,12 @@ const BAND_LABELS: Record<BandKey, string> = {
 // ─── Live-highlight helpers ────────────────────────────────────────────────
 
 function getNowHHMM(): string {
-  return new Date().toISOString().slice(11, 16);
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Rome",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date());
 }
 
 function hhmmToMin(hhmm: string): number {
