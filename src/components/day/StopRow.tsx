@@ -8,6 +8,8 @@ interface StopRowProps {
   idea?: Idea;
   timeLock?: boolean;
   stepIndex?: number;
+  optional?: boolean;
+  duration?: string;
 }
 
 /**
@@ -30,6 +32,8 @@ export default function StopRow({
   idea,
   timeLock = false,
   stepIndex,
+  optional = false,
+  duration,
 }: StopRowProps) {
   if (!anchor && !idea) return null;
 
@@ -53,6 +57,7 @@ export default function StopRow({
         gap: "0 10px",
         padding: "12px 0",
         borderBottom: "1px solid rgba(26,22,18,0.12)",
+        opacity: optional ? 0.85 : 1,
       }}
     >
       {/* ── LEFT GUTTER: step number (if route day) + type icon ── */}
@@ -117,6 +122,34 @@ export default function StopRow({
           >
             {label}
           </span>
+          {duration && (
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 10,
+                color: "var(--pencil)",
+                letterSpacing: "0.08em",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              {duration}
+            </span>
+          )}
+          {optional && (
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 10,
+                color: "var(--pencil)",
+                letterSpacing: "0.12em",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              OPTIONAL
+            </span>
+          )}
         </div>
 
         {/* Row 2: one-line detail / why */}

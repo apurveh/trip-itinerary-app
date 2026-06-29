@@ -41,6 +41,10 @@ export interface Anchor {
   confirmationKey?: string; // localStorage key for a confirmation-number slot (booked tickets)
   startMin?: number; // parsed minutes-since-midnight, for banding/sort
   mapsQuery?: string; // map-pin only when a real destination
+  order?: number; // position in the unified day sequence (1-based)
+  section?: string; // section label printed above the first item of each new section
+  timeLock?: boolean; // true for hard time-lock anchors (show timeLock in BookingChip)
+  duration?: string; // suggested visit duration, e.g. "~2–3h"
 }
 
 export interface Idea {
@@ -52,6 +56,10 @@ export interface Idea {
   photo?: Photo;
   mapsQuery: string; // fed to mapsLink()
   kind?: IdeaKind;
+  order?: number; // position in the unified day sequence (1-based)
+  section?: string; // section label printed above the first item of each new section
+  optional?: boolean; // true for genuine maybes (de-emphasised in the UI)
+  duration?: string; // suggested visit duration, e.g. "~2–3h"
 }
 
 export interface Day {

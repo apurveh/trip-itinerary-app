@@ -41,7 +41,7 @@ export default function Day() {
         ← DOSSIER
       </Link>
 
-      {/* ── Hero image (aspect-ratio, not fixed height) ── */}
+      {/* ── Hero image (fixed aspect-ratio box — crops any source cleanly) ── */}
       {day.heroImage && (
         <div
           style={{
@@ -49,6 +49,7 @@ export default function Day() {
             border: "2px solid var(--ink)",
             boxShadow: "6px 6px 0 var(--ink)",
             overflow: "hidden",
+            aspectRatio: "16 / 10",
           }}
         >
           <Image
@@ -57,6 +58,7 @@ export default function Day() {
             width={1200}
             height={675}
             priority
+            cover
           />
         </div>
       )}
@@ -114,21 +116,7 @@ export default function Day() {
         {day.summary}
       </p>
 
-      {/* Getting there */}
-      <div
-        className="t-typewriter"
-        style={{
-          fontSize: 12,
-          color: "var(--ink-soft)",
-          marginTop: 10,
-          paddingTop: 10,
-          borderTop: "1px dashed rgba(26,22,18,0.2)",
-        }}
-      >
-        GETTING THERE · {day.transitFromBase}
-      </div>
-
-      {/* ── Shape-aware timeline ── */}
+      {/* ── Timeline (getting-there is now the first step in the sequence) ── */}
       <DayTimeline trip={trip} day={day} />
 
       {/* ── Gallery (guard: omit when empty) ── */}

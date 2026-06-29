@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { Anchor, BandKey, Day, Trip } from "@/lib/types";
-import { buildAnchoredDay, anytimeIdeas, isHeatWindow, bandOf } from "@/lib/dayBands";
+import type { Anchor, Day, Idea, Trip } from "@/lib/types";
 import { tripStatusAt, nextStop } from "@/lib/tripClock";
 import StopRow from "@/components/day/StopRow";
 import Icon from "@/components/primitives/Icon";
@@ -9,13 +8,6 @@ interface DayTimelineProps {
   trip: Trip;
   day: Day;
 }
-
-const BAND_LABELS: Record<BandKey, string> = {
-  morning: "MORNING",
-  midday: "MIDDAY",
-  afternoon: "AFTERNOON",
-  evening: "EVENING",
-};
 
 // ─── Live-highlight helpers ────────────────────────────────────────────────
 
@@ -32,6 +24,12 @@ function hhmmToMin(hhmm: string): number {
   return parseInt(hhmm.slice(0, 2)) * 60 + parseInt(hhmm.slice(3, 5));
 }
 
+// ─── Unified item type ────────────────────────────────────────────────────
+
+type TimelineItem =
+  | { kind: "anchor"; anchor: Anchor; order: number; section?: string }
+  | { kind: "idea"; idea: Idea; order: number; section?: string; optional?: boolean };
+
 // ─── Component ────────────────────────────────────────────────────────────
 
 export default function DayTimeline({ trip, day }: DayTimelineProps) {
@@ -42,7 +40,7 @@ export default function DayTimeline({ trip, day }: DayTimelineProps) {
 
   const currentHHMM = isToday ? getNowHHMM() : "00:00";
   const currentMin = isToday ? hhmmToMin(currentHHMM) : 0;
-  const currentBandKey: BandKey | null = isToday ? bandOf(currentMin) : null;
+  void currentMin; // unused after removing band logic — kept for future heat-window use
 
   const nextStopResult = isToday ? nextStop(day, currentHHMM) : null;
   const nextAnchorTarget: Anchor | null =
@@ -50,239 +48,103 @@ export default function DayTimeline({ trip, day }: DayTimelineProps) {
       ? nextStopResult.anchor
       : null;
 
-  // Refs for scroll-into-view on today
-  const currentSectionRef = useRef<HTMLElement>(null);
+  // Ref for scroll-into-view on today (next timed anchor)
   const currentItemRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if (!isToday) return;
-    const el: Element | null = currentItemRef.current ?? currentSectionRef.current;
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (currentItemRef.current) {
+      currentItemRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, [isToday]);
 
-  // ── ANCHORED ────────────────────────────────────────────────────────────
-  if (day.shape === "anchored") {
-    const bands = buildAnchoredDay(day);
-    const ideas = anytimeIdeas(day);
-    if (bands.length === 0 && ideas.length === 0) return null;
+  // ── Build unified ordered sequence ──────────────────────────────────────
 
-    return (
-      <div>
-        {bands.length > 0 && (
-          <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
-            {bands.map(({ band, anchors }) => {
-              const isCurrent = isToday && band === currentBandKey;
-              const hasHeat = anchors.some(
-                (a) => a.startMin !== undefined && isHeatWindow(a.startMin),
-              );
-              return (
-                <li key={band}>
-                  <section
-                    ref={isCurrent ? currentSectionRef : undefined}
-                    aria-current={isCurrent ? "true" : undefined}
-                    className="scroll-target"
-                    style={{ marginTop: 32 }}
-                  >
-                    {/* Band heading */}
-                    <h2
-                      className="t-display"
-                      style={{
-                        fontSize: 13,
-                        letterSpacing: "0.18em",
-                        color: "var(--pencil)",
-                        marginBottom: 4,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        borderBottom: "1px solid rgba(26,22,18,0.15)",
-                        paddingBottom: 6,
-                      }}
-                    >
-                      <Icon name="sun-arc" size={14} />
-                      {BAND_LABELS[band]}
-                      {hasHeat && (
-                        <span
-                          className="t-mono"
-                          style={{
-                            fontSize: 10,
-                            color: "var(--amber-deep)",
-                            letterSpacing: "0.1em",
-                            marginLeft: 8,
-                          }}
-                        >
-                          ☀ HOT · INDOORS 13–16
-                        </span>
-                      )}
-                    </h2>
+  const items: TimelineItem[] = [
+    ...day.anchors.map((a) => ({
+      kind: "anchor" as const,
+      anchor: a,
+      order: a.order ?? 0,
+      section: a.section,
+    })),
+    ...day.ideas.map((i) => ({
+      kind: "idea" as const,
+      idea: i,
+      order: i.order ?? 0,
+      section: i.section,
+      optional: i.optional,
+    })),
+  ];
 
-                    {/* Anchors in this band */}
-                    <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                      {anchors.map((a) => {
-                        const isNext = isToday && a === nextAnchorTarget;
-                        return (
-                          <li
-                            key={a.label}
-                            ref={isNext ? currentItemRef : undefined}
-                            aria-current={isNext ? "true" : undefined}
-                            className={isNext ? "scroll-target" : undefined}
-                          >
-                            <StopRow anchor={a} />
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </section>
-                </li>
-              );
-            })}
-          </ol>
-        )}
+  // Stable sort ascending by order (JS sort is stable since ES2019)
+  items.sort((a, b) => a.order - b.order);
 
-        {/* ANYTIME section */}
-        {ideas.length > 0 && (
-          <section style={{ marginTop: 36 }}>
-            <h2
-              className="t-display"
-              style={{
-                fontSize: 13,
-                letterSpacing: "0.18em",
-                color: "var(--pencil)",
-                marginBottom: 4,
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                borderBottom: "1px solid rgba(26,22,18,0.15)",
-                paddingBottom: 6,
-              }}
+  if (items.length === 0) return null;
+
+  // Pre-compute which items need a section divider
+  const itemsWithDividers = items.map((item, idx) => {
+    const prev = idx > 0 ? items[idx - 1] : null;
+    const showDivider = item.section !== undefined && item.section !== prev?.section;
+    return { ...item, showDivider };
+  });
+
+  // ── Render ───────────────────────────────────────────────────────────────
+
+  return (
+    <div>
+      <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
+        {itemsWithDividers.map((item) => {
+          const isNext =
+            item.kind === "anchor" && isToday && item.anchor === nextAnchorTarget;
+          const key = item.kind === "anchor" ? item.anchor.label : item.idea.name;
+
+          return (
+            <li
+              key={key}
+              ref={isNext ? currentItemRef : undefined}
+              aria-current={isNext ? "true" : undefined}
+              className={isNext ? "scroll-target" : undefined}
             >
-              <Icon name="map-pin" size={14} />
-              ANYTIME · NEARBY
-            </h2>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {ideas.map((idea) => (
-                <li key={idea.name}>
-                  <StopRow idea={idea} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  // ── ROUTE ───────────────────────────────────────────────────────────────
-  if (day.shape === "route") {
-    const ideas = day.ideas;
-    const untimedAnchors = day.anchors.filter((a) => !a.time);
-    const timedAnchors = day.anchors.filter((a) => Boolean(a.time));
-
-    if (untimedAnchors.length === 0 && ideas.length === 0 && timedAnchors.length === 0) {
-      return null;
-    }
-
-    return (
-      <div>
-        <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
-          {/* Logistics (untimed anchors) — no step number */}
-          {untimedAnchors.map((a) => {
-            const isNext = isToday && a === nextAnchorTarget;
-            return (
-              <li
-                key={a.label}
-                ref={isNext ? currentItemRef : undefined}
-                aria-current={isNext ? "true" : undefined}
-                className={isNext ? "scroll-target" : undefined}
-              >
-                <StopRow anchor={a} />
-              </li>
-            );
-          })}
-
-          {/* Numbered idea steps */}
-          {ideas.map((idea, i) => (
-            <li key={idea.name}>
-              <StopRow idea={idea} stepIndex={i + 1} />
-            </li>
-          ))}
-
-          {/* Timed anchors pinned with timeLock (e.g. return train) */}
-          {timedAnchors.map((a) => {
-            const isNext = isToday && a === nextAnchorTarget;
-            return (
-              <li
-                key={a.label}
-                ref={isNext ? currentItemRef : undefined}
-                aria-current={isNext ? "true" : undefined}
-                className={isNext ? "scroll-target" : undefined}
-              >
-                <StopRow anchor={a} timeLock />
-              </li>
-            );
-          })}
-        </ol>
-      </div>
-    );
-  }
-
-  // ── TRANSIT ─────────────────────────────────────────────────────────────
-  if (day.shape === "transit") {
-    const anchors = day.anchors;
-    const ideas = day.ideas;
-    if (anchors.length === 0 && ideas.length === 0) return null;
-
-    return (
-      <div>
-        {anchors.length > 0 && (
-          <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 0 }}>
-            {anchors.map((a) => {
-              const isNext = isToday && a === nextAnchorTarget;
-              return (
-                <li
-                  key={a.label}
-                  ref={isNext ? currentItemRef : undefined}
-                  aria-current={isNext ? "true" : undefined}
-                  className={isNext ? "scroll-target" : undefined}
+              {/* Section divider — reuse band-heading style */}
+              {item.showDivider && (
+                <h2
+                  className="t-display"
+                  style={{
+                    fontSize: 13,
+                    letterSpacing: "0.18em",
+                    color: "var(--pencil)",
+                    marginTop: 32,
+                    marginBottom: 4,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    borderBottom: "1px solid rgba(26,22,18,0.15)",
+                    paddingBottom: 6,
+                  }}
                 >
-                  <StopRow anchor={a} timeLock={Boolean(a.time)} />
-                </li>
-              );
-            })}
-          </ol>
-        )}
+                  <Icon name="sun-arc" size={14} />
+                  {item.section}
+                </h2>
+              )}
 
-        {/* ANYTIME section */}
-        {ideas.length > 0 && (
-          <section style={{ marginTop: 36 }}>
-            <h2
-              className="t-display"
-              style={{
-                fontSize: 13,
-                letterSpacing: "0.18em",
-                color: "var(--pencil)",
-                marginBottom: 4,
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                borderBottom: "1px solid rgba(26,22,18,0.15)",
-                paddingBottom: 6,
-              }}
-            >
-              <Icon name="map-pin" size={14} />
-              ANYTIME · NEARBY
-            </h2>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {ideas.map((idea) => (
-                <li key={idea.name}>
-                  <StopRow idea={idea} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  return null;
+              {/* Stop row */}
+              {item.kind === "anchor" ? (
+                <StopRow
+                  anchor={item.anchor}
+                  timeLock={Boolean(item.anchor.timeLock)}
+                  duration={item.anchor.duration}
+                />
+              ) : (
+                <StopRow
+                  idea={item.idea}
+                  optional={item.optional}
+                  duration={item.idea.duration}
+                />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
 }

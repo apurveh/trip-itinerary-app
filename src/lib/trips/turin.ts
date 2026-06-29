@@ -100,6 +100,8 @@ export const TURIN: Trip = {
           time: "06:25",
           startMin: 385,
           type: "flight",
+          order: 1,
+          timeLock: true,
           detail:
             "Your flight leaves Copenhagen (CPH) at 06:25 and lands in Turin (TRN) at 08:35.",
           booking: "na",
@@ -107,13 +109,15 @@ export const TURIN: Trip = {
         {
           label: "Airport train → Porta Susa",
           type: "transit",
+          order: 2,
           detail:
-            "At the airport, take the SFM regional train (SFM = the airport regional train line) from Torino Aeroporto toward Asti/Alba and ride it to Porta Susa station (about 30 minutes, 3.70 € per person).",
+            "At the airport, take the SFM regional train from Torino Aeroporto toward Asti/Alba; get off at Porta Susa (about 30 min, 3.70 € per person). Departures at 9:17 or 9:30.",
           booking: "na",
         },
         {
           label: "Drop bags at Radical Storage, Porta Susa",
           type: "transit",
+          order: 3,
           detail:
             "Leave your luggage at the Radical Storage left-luggage point at Porta Susa station — book and pay for your slot in the Radical Storage app first, then you are free to wander hands-empty.",
           booking: "na",
@@ -123,6 +127,8 @@ export const TURIN: Trip = {
           time: "15:00",
           startMin: 900,
           type: "transit",
+          order: 6,
+          timeLock: true,
           detail:
             "Check-in opens at 15:00 at Corso Dante 72 (Dante metro). From Porta Susa, take the metro toward Bengasi and get off at Dante (~8 min); the apartment is a short walk from the station.",
           booking: "na",
@@ -130,10 +136,12 @@ export const TURIN: Trip = {
       ],
       ideas: [
         {
-          name: "Open morning — roam, coffee, a piazza, lunch",
-          why: "Day one is intentionally unplanned. After the bag drop, just wander the arcades, sit for a coffee, find a piazza and a long lunch. No schedule, no rush — let the jet lag settle.",
+          name: "Free time until check-in",
+          why: "Bags dropped — explore the centre, coffee, a piazza, lunch, and hang out until the 15:00 check-in.",
           area: "Centro / Quadrilatero",
           mapsQuery: "Piazza Castello, Torino",
+          order: 4,
+          section: "UNTIL CHECK-IN",
         },
         {
           name: "Supermarket run near the base",
@@ -141,6 +149,9 @@ export const TURIN: Trip = {
           area: "Corso Dante",
           tip: "Pick whichever is nearest and open — all three carry the basics.",
           mapsQuery: "supermarket Corso Dante, Torino",
+          order: 5,
+          section: "UNTIL CHECK-IN",
+          optional: true,
         },
       ],
       photos: [
@@ -168,10 +179,21 @@ export const TURIN: Trip = {
         "From Corso Dante 72, walk to Dante metro and take the metro toward Fermi; get off at Porta Nuova (3 stops, ~5 min), then walk up Via Roma into the centre.",
       anchors: [
         {
+          label: "To the centre",
+          type: "transit",
+          order: 1,
+          section: "MORNING",
+          detail:
+            "Leave around 9:15 — Dante metro toward Fermi to Porta Nuova (~5 min), then walk Via Roma → Piazza San Carlo → Via Accademia delle Scienze to the museum.",
+          booking: "na",
+        },
+        {
           label: "Museo Egizio",
           time: "10:00",
           startMin: 600,
           type: "ticket",
+          order: 2,
+          section: "MORNING",
           detail:
             "Your booked 10:00 entry to the Museo Egizio (the Egyptian Museum) at Via Accademia delle Scienze 6. It holds the second-largest collection of Egyptian antiquities in the world.",
           booking: "booked",
@@ -182,11 +204,23 @@ export const TURIN: Trip = {
       ],
       ideas: [
         {
+          name: "Lunch at a tavola calda",
+          why: "A 'tavola calda' is a casual Italian counter where you point at freshly cooked dishes — a quick, cheap, no-fuss lunch near the museum.",
+          area: "Centro",
+          tip: "Point at what looks good; you usually pay by plate or by weight.",
+          mapsQuery: "tavola calda centro Torino",
+          kind: "food",
+          order: 3,
+          section: "MIDDAY",
+        },
+        {
           name: "Piazza San Carlo",
           why: "Turin's elegant 'drawing-room' square, framed by twin baroque churches and grand arcaded cafés.",
           area: "Centro",
           mapsQuery: "Piazza San Carlo, Torino",
           photo: { src: piazzaSanCarlo3, alt: "Piazza San Carlo — Turin's baroque square lined with arcaded cafés" },
+          order: 4,
+          section: "AFTERNOON",
         },
         {
           name: "Piazza Castello & Palazzo Reale",
@@ -195,20 +229,17 @@ export const TURIN: Trip = {
           cost: "Palazzo Reale ~17 € pp",
           mapsQuery: "Palazzo Reale, Torino",
           photo: { src: palazzoReale, alt: "Palazzo Reale — the Savoy royal palace on Piazza Castello" },
+          order: 5,
+          section: "AFTERNOON",
         },
         {
           name: "Via Roma arcades",
           why: "Turin's main shopping avenue runs entirely under elegant covered arcades — welcome shade on a hot day, linking Porta Nuova to Piazza Castello.",
           area: "Centro",
           mapsQuery: "Via Roma, Torino",
-        },
-        {
-          name: "Lunch at a tavola calda",
-          why: "A 'tavola calda' is a casual Italian counter where you point at freshly cooked dishes — a quick, cheap, no-fuss lunch near the museum.",
-          area: "Centro",
-          tip: "Point at what looks good; you usually pay by plate or by weight.",
-          mapsQuery: "tavola calda centro Torino",
-          kind: "food",
+          order: 6,
+          section: "AFTERNOON",
+          optional: true,
         },
       ],
       photos: [
@@ -238,39 +269,47 @@ export const TURIN: Trip = {
         "From Corso Dante 72, walk to Dante metro and take the metro toward Bengasi; get off at Lingotto (~4 min) — the museum is a short, signposted walk from the station.",
       anchors: [
         {
+          label: "To Lingotto",
+          type: "transit",
+          order: 1,
+          section: "MORNING",
+          detail:
+            "Dante metro → Lingotto (dir Bengasi, ~4 min), then a 10–15 min walk to the museum.",
+          booking: "na",
+        },
+        {
           label: "National Automobile Museum (MAUTO)",
           time: "10:00–19:00",
           startMin: 600,
           type: "ticket",
+          order: 2,
+          section: "MORNING",
+          duration: "~2–3h",
           detail:
-            "The National Automobile Museum (Museo Nazionale dell'Automobile, also called MAUTO). It's open 10:00–19:00 and tickets are about 15 € per person. It isn't pre-booked — buy online beforehand or at the door.",
+            "The National Automobile Museum (Museo Nazionale dell'Automobile, also called MAUTO). It's open 10:00–19:00 and tickets are about 15 € per person. Buy online beforehand or at the door.",
           booking: "toBook",
           bookingLink: "https://www.museoauto.com/",
           confirmationKey: "mauto-conf",
           mapsQuery: "Museo Nazionale dell'Automobile, Torino",
         },
-        {
-          label: "Metro to the museum",
-          type: "transit",
-          detail:
-            "From Dante take the metro toward Bengasi and get off at Lingotto (~4 min); follow the signs from the station to the museum.",
-          booking: "na",
-        },
       ],
       ideas: [
         {
-          name: "Give MAUTO two to three hours",
-          why: "The National Automobile Museum (MAUTO) is one of the best car museums in the world — give it two to three hours to do the collection justice.",
+          name: "Lunch around Lingotto",
+          why: "Have lunch near Lingotto station after the museum — plenty of casual options in the area.",
           area: "Lingotto",
-          cost: "15 € pp",
-          mapsQuery: "Museo Nazionale dell'Automobile, Torino",
-          photo: { src: mautoImg, alt: "Inside the Museo Nazionale dell'Automobile (MAUTO) — one of the world's great car museums", credit: "FrDr / Wikimedia Commons (CC BY-SA 4.0)" },
+          mapsQuery: "ristorante Lingotto, Torino",
+          kind: "food",
+          order: 3,
+          section: "MIDDAY",
         },
         {
           name: "Riverside walk along the Po",
           why: "The Po river runs close to Lingotto; a flat, shady riverside stroll is an easy way to unwind after the museum.",
           area: "Lingotto / Po",
           mapsQuery: "Lungo Po, Torino",
+          order: 4,
+          section: "AFTERNOON",
         },
         {
           name: "Aperitivo to close the day",
@@ -278,6 +317,9 @@ export const TURIN: Trip = {
           area: "Centro / Lingotto",
           mapsQuery: "Caffè Bellini, Torino",
           kind: "food",
+          order: 5,
+          section: "EVENING",
+          optional: true,
         },
       ],
       photos: [
@@ -307,10 +349,21 @@ export const TURIN: Trip = {
         "From Corso Dante 72, walk to Dante metro and take the metro toward Fermi; get off at Porta Nuova (~5 min), then walk into the centre toward the markets and, later, the Mole.",
       anchors: [
         {
+          label: "To the markets",
+          type: "transit",
+          order: 1,
+          section: "MORNING",
+          detail:
+            "Dante metro → Porta Nuova (dir Fermi, ~5 min), then walk Via Roma → Piazza Castello → Via Garibaldi to the markets.",
+          booking: "na",
+        },
+        {
           label: "Balôn flea market + Porta Palazzo market",
           time: "from 07:00",
           startMin: 420,
           type: "market",
+          order: 2,
+          section: "MORNING",
           detail:
             "Two markets sit side by side near Porta Palazzo: the huge daily Porta Palazzo food-and-goods market, and the Balôn flea market (Saturdays only). Both get going around 07:00 and are best early.",
           booking: "na",
@@ -321,19 +374,14 @@ export const TURIN: Trip = {
           time: "15:00",
           startMin: 900,
           type: "ticket",
+          order: 5,
+          section: "AFTERNOON",
           detail:
-            "Your booked 15:00 entry to the National Cinema Museum inside the Mole Antonelliana, including the glass panoramic lift to the top for the city view.",
+            "Your booked 15:00 entry to the National Cinema Museum inside the Mole Antonelliana, including the glass panoramic lift to the top for the city view. Carry your ID.",
           booking: "booked",
           bookingLink: "https://www.museocinema.it/",
           confirmationKey: "mole-conf",
           mapsQuery: "Mole Antonelliana, Torino",
-        },
-        {
-          label: "Metro into the centre",
-          type: "transit",
-          detail:
-            "From Dante take the metro toward Fermi to Porta Nuova (~5 min), then walk into the centre toward the markets and the Mole.",
-          booking: "na",
         },
       ],
       ideas: [
@@ -343,12 +391,17 @@ export const TURIN: Trip = {
           area: "Quadrilatero",
           mapsQuery: "Quadrilatero Romano, Torino",
           kind: "food",
+          order: 3,
+          section: "MIDDAY",
         },
         {
           name: "Via Garibaldi stroll",
           why: "One of Europe's longest pedestrian streets, running straight from Piazza Castello — an easy, car-free walk back across the centre.",
           area: "Centro",
           mapsQuery: "Via Garibaldi, Torino",
+          order: 4,
+          section: "MIDDAY",
+          optional: true,
         },
       ],
       photos: [
@@ -381,6 +434,8 @@ export const TURIN: Trip = {
         {
           label: "Metro to Porta Nuova",
           type: "transit",
+          order: 2,
+          section: "GETTING THERE",
           detail:
             "From Dante take the metro toward Fermi to Porta Nuova (~6 min) to reach the regional-train platforms.",
           booking: "na",
@@ -390,6 +445,9 @@ export const TURIN: Trip = {
           time: "07:45 / 08:45 / 09:15 / 09:45 / 10:45",
           startMin: 465,
           type: "ticket",
+          order: 3,
+          section: "GETTING THERE",
+          timeLock: true,
           detail:
             "Regional train from Porta Nuova toward Susa/Bardonecchia/Modane; get off at Avigliana (~30 min). Useful departures: 07:45, 08:45, 09:15, 09:45, 10:45. Buy the train + shuttle BUNDLE in the Trenitalia app.",
           booking: "toBook",
@@ -402,6 +460,9 @@ export const TURIN: Trip = {
           time: "ONLY 09:00 / 10:00 / 14:00 / 16:00",
           startMin: 540,
           type: "shuttle",
+          order: 4,
+          section: "GETTING THERE",
+          timeLock: true,
           detail:
             "A shuttle bus runs from Avigliana up to the Sacra di San Michele at fixed times only: 09:00, 10:00, 14:00 and 16:00. There's no easy alternative up, so plan your train to connect with one of these.",
           booking: "na",
@@ -412,13 +473,36 @@ export const TURIN: Trip = {
           time: "ONLY 09:30 / 10:30 / 14:30 / 16:30 / 18:30",
           startMin: 570,
           type: "shuttle",
+          order: 6,
+          section: "AFTER THE SACRA",
+          timeLock: true,
           detail:
             "The return shuttle from the Sacra down to Avigliana also runs at fixed times only: 09:30, 10:30, 14:30, 16:30 and 18:30. Note your slot before you head up.",
           booking: "na",
           mapsQuery: "Sacra di San Michele",
         },
+        {
+          label: "Train Avigliana → Porta Nuova, home",
+          type: "transit",
+          order: 8,
+          section: "HOME",
+          detail:
+            "Walk back to Avigliana station and take the regional train to Porta Nuova (~30 min), then the metro home to Dante.",
+          booking: "na",
+          mapsQuery: "Stazione di Avigliana",
+        },
       ],
       ideas: [
+        {
+          name: "Make lunch from home",
+          why: "Pack a lunch before you leave — the abbey and lake day is long and food options on the route are limited.",
+          area: "Corso Dante",
+          mapsQuery: "",
+          kind: "food",
+          order: 1,
+          section: "BEFORE YOU GO",
+          optional: true,
+        },
         {
           name: "Sacra di San Michele",
           why: "A dramatic 10th-century abbey perched on Mount Pirchiriano — the building that inspired Umberto Eco's novel *The Name of the Rose*. The views over the valley are the reward for the climb.",
@@ -426,14 +510,18 @@ export const TURIN: Trip = {
           mapsQuery: "Sacra di San Michele",
           kind: "viewpoint",
           photo: { src: sacraDiSanMichele, alt: "Sacra di San Michele — the 10th-century abbey perched on Mount Pirchiriano above Val di Susa" },
+          order: 5,
+          section: "THE SACRA",
         },
         {
           name: "Lago Grande di Avigliana — swim & picnic",
-          why: "A clear lake near Avigliana for a swim and a picnic. From the centre it's about a 20–25 minute walk: head down Corso Torino, then continue along Corso Laghi to the Baia Grande beach area.",
+          why: "Walk Corso Torino → Corso Laghi (~20–25 min) down to the lakeside — swim & picnic. A clear lake near Avigliana, the cool-down reward after the abbey.",
           area: "Avigliana",
           tip: "Bring flip-flops, a towel and a backpack for your lake things.",
           mapsQuery: "Baia Grande, Lago Grande di Avigliana",
           photo: { src: lacsDavcgliana2, alt: "Lago Grande di Avigliana — clear summer waters below the Sacra di San Michele" },
+          order: 7,
+          section: "AFTER THE SACRA",
         },
       ],
       photos: [
@@ -465,6 +553,7 @@ export const TURIN: Trip = {
         {
           label: "Metro to Porta Nuova",
           type: "transit",
+          order: 1,
           detail:
             "From Dante take the metro toward Fermi to Porta Nuova (~6 min) to reach the regional-train platforms.",
           booking: "na",
@@ -472,6 +561,7 @@ export const TURIN: Trip = {
         {
           label: "Train Porta Nuova → Susa",
           type: "ticket",
+          order: 2,
           detail:
             "Regional train from Porta Nuova to Susa (about 1 hour 6 minutes). Buy it in the Trenitalia app or at the station.",
           booking: "toBook",
@@ -486,6 +576,7 @@ export const TURIN: Trip = {
           time: "≈ hourly to ~20:00",
           startMin: 1200,
           type: "transit",
+          order: 8,
           detail: "Verify exact times in the Trenitalia app the morning of. ~1h06.",
           booking: "na",
         },
@@ -497,24 +588,28 @@ export const TURIN: Trip = {
           area: "Susa",
           mapsQuery: "Arco di Augusto, Susa",
           photo: { src: arcoAugustoSusa, alt: "Arco di Augusto — the Roman triumphal arch standing in Susa since 9–8 BC", credit: "Duvilar (Lorenzo Rossetti) / Wikimedia Commons (CC BY-SA 3.0)" },
+          order: 3,
         },
         {
           name: "The Roman amphitheatre",
           why: "The remains of Susa's Roman amphitheatre — a quiet reminder that this little Alpine town was once a Roman outpost.",
           area: "Susa",
           mapsQuery: "Anfiteatro Romano, Susa",
+          order: 4,
         },
         {
           name: "Porta Savoia",
           why: "An ancient Roman city gate, later built into Susa's medieval defences.",
           area: "Susa",
           mapsQuery: "Porta Savoia, Susa",
+          order: 5,
         },
         {
           name: "Susa Cathedral (San Giusto)",
           why: "The 11th-century Cathedral of San Giusto, with its tall bell tower, anchors the centre of town.",
           area: "Susa",
           mapsQuery: "Cattedrale di San Giusto, Susa",
+          order: 6,
         },
         {
           name: "Lunch in town",
@@ -522,6 +617,7 @@ export const TURIN: Trip = {
           area: "Susa",
           mapsQuery: "ristorante centro Susa",
           kind: "food",
+          order: 7,
         },
       ],
       photos: [],
@@ -548,6 +644,7 @@ export const TURIN: Trip = {
         {
           label: "Metro + bus toward Crimea",
           type: "transit",
+          order: 1,
           detail:
             "From Dante take the metro toward Fermi to Porta Nuova (~5 min), then catch bus 52 or 66 and get off at the Crimea stop (~6 min) to start the hillside loop.",
           booking: "na",
@@ -555,6 +652,7 @@ export const TURIN: Trip = {
         {
           label: "Sassi–Superga rack tram (Cremagliera)",
           type: "ticket",
+          order: 6,
           detail:
             "The historic Sassi–Superga rack railway (the 'Cremagliera') climbs from Sassi station up to the Basilica of Superga (~18 min up). Buy tickets at Sassi station or through GTT, the city transport company.",
           booking: "toBook",
@@ -571,6 +669,7 @@ export const TURIN: Trip = {
           mapsQuery: "Monte dei Cappuccini, Torino",
           kind: "viewpoint",
           photo: { src: monteCappuccini, alt: "Santa Maria al Monte dei Cappuccini — the hilltop church with panoramic views over Turin", credit: "GJo / Wikimedia Commons (CC BY-SA 3.0)" },
+          order: 2,
         },
         {
           name: "Villa della Regina",
@@ -579,6 +678,7 @@ export const TURIN: Trip = {
           cost: "~5 € pp",
           mapsQuery: "Villa della Regina, Torino",
           photo: { src: villaDellRegina, alt: "Villa della Regina — the terraced gardens of the 17th-century royal villa on Turin's hillside", credit: "Zairon / Wikimedia Commons (CC BY-SA 4.0)" },
+          order: 3,
         },
         {
           name: "Walk to the Gran Madre, then bus to Sassi",
@@ -586,6 +686,15 @@ export const TURIN: Trip = {
           area: "Gran Madre / Sassi",
           mapsQuery: "Gran Madre di Dio, Torino",
           photo: { src: sassiStation, alt: "Sassi station — the lower terminus of the Cremagliera historic rack tram up to Superga" },
+          order: 4,
+        },
+        {
+          name: "Lunch near Sassi",
+          why: "Grab lunch around the Sassi station before riding the rack tram up to Superga.",
+          area: "Sassi",
+          mapsQuery: "ristorante Sassi Torino",
+          kind: "food",
+          order: 5,
         },
         {
           name: "Basilica di Superga + Royal Tombs",
@@ -594,13 +703,7 @@ export const TURIN: Trip = {
           mapsQuery: "Basilica di Superga",
           kind: "viewpoint",
           photo: { src: supergaBasilisca, alt: "The Basilica di Superga — Turin's grand hilltop church holding the Royal Tombs of the House of Savoy" },
-        },
-        {
-          name: "Lunch near Sassi",
-          why: "Grab lunch around the Sassi station before or after riding the rack tram up to Superga.",
-          area: "Sassi",
-          mapsQuery: "ristorante Sassi Torino",
-          kind: "food",
+          order: 7,
         },
       ],
       photos: [
@@ -625,7 +728,7 @@ export const TURIN: Trip = {
       vibe: "early · wistful · over-packed",
       lead: "both",
       summary:
-        "A pre-dawn start to catch the airport train and the morning flight home. If timing allows, one last bicerin before you go — but the 06:13 train is the thing that matters.",
+        "A pre-dawn start to catch the airport train and the morning flight home. The 06:13 train from Porta Susa is the only thing that matters today.",
       transitFromBase:
         "Departure day — you leave the base before dawn for the airport. The metro and airport-train steps are in the anchors below.",
       anchors: [
@@ -634,6 +737,8 @@ export const TURIN: Trip = {
           time: "~04:45",
           startMin: 285,
           type: "transit",
+          order: 1,
+          timeLock: true,
           detail: "Set an alarm for about 04:45 — it's an early start to make the airport train.",
           booking: "na",
         },
@@ -642,6 +747,8 @@ export const TURIN: Trip = {
           time: "05:54",
           startMin: 354,
           type: "transit",
+          order: 2,
+          timeLock: true,
           detail:
             "Take the 05:54 metro from Dante toward Fermi to Porta Susa, which brings you straight into Porta Susa railway station.",
           booking: "na",
@@ -651,6 +758,8 @@ export const TURIN: Trip = {
           time: "06:13",
           startMin: 373,
           type: "transit",
+          order: 3,
+          timeLock: true,
           detail:
             "Board the 06:13 SFM regional train from Porta Susa to Torino Aeroporto (about 30 minutes). This is the train to catch.",
           booking: "na",
@@ -660,20 +769,14 @@ export const TURIN: Trip = {
           time: "09:05",
           startMin: 545,
           type: "flight",
+          order: 4,
+          timeLock: true,
           detail:
             "Your flight home leaves Turin (TRN) at 09:05 and lands in Copenhagen (CPH) at 11:10.",
           booking: "na",
         },
       ],
-      ideas: [
-        {
-          name: "A last bicerin at Caffè Al Bicerin",
-          why: "If there's time before the airport, the historic Caffè Al Bicerin serves the bicerin — Turin's classic layered drink of espresso, chocolate and cream.",
-          area: "Centro",
-          tip: "Only if your timing is comfortable — don't risk the train for it.",
-          mapsQuery: "Caffè Al Bicerin, Torino",
-        },
-      ],
+      ideas: [],
       photos: [],
       intel: [
         "Pack the wine and oils in your CHECKED bag, not your carry-on. Leave early — the 06:13 train is the one you must make.",

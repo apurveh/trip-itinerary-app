@@ -8,9 +8,10 @@ interface Props {
   priority?: boolean;
   className?: string;
   style?: CSSProperties;
+  cover?: boolean;
 }
 
-export default function Image({ src, alt, width, height, priority, className, style }: Props) {
+export default function Image({ src, alt, width, height, priority, className, style, cover }: Props) {
   return (
     <img
       src={src}
@@ -22,13 +23,24 @@ export default function Image({ src, alt, width, height, priority, className, st
       loading={priority ? "eager" : "lazy"}
       // @ts-expect-error fetchpriority is valid HTML, not yet in React types
       fetchpriority={priority ? "high" : undefined}
-      style={{
-        display: "block",
-        width: "100%",
-        height: "auto",
-        aspectRatio: `${width} / ${height}`,
-        ...style,
-      }}
+      style={
+        cover
+          ? {
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              ...style,
+            }
+          : {
+              display: "block",
+              width: "100%",
+              height: "auto",
+              aspectRatio: `${width} / ${height}`,
+              ...style,
+            }
+      }
     />
   );
 }
